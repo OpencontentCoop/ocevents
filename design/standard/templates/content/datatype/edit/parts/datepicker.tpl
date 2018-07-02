@@ -1,4 +1,4 @@
-<div class="input-group-btn">
+<div class="input-group-btn fuelux-datepicker">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
         <span class="glyphicon glyphicon-calendar"></span>
         <span class="sr-only">Toggle Calendar</span>
@@ -47,7 +47,7 @@
                 <tbody></tbody>
             </table>
             <div class="datepicker-calendar-footer">
-                <button class="datepicker-today">Today</button>
+                {*<button class="datepicker-today">Today</button>*}
             </div>
         </div>
         <div class="datepicker-wheels" aria-hidden="true">

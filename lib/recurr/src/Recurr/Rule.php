@@ -19,6 +19,7 @@ namespace Recurr;
 
 use Recurr\Exception\InvalidArgument;
 use Recurr\Exception\InvalidRRule;
+use Recurr\Exception\InvalidWeekday;
 use Recurr\Weekday;
 
 /**
@@ -87,6 +88,9 @@ use Recurr\Weekday;
  */
 class Rule
 {
+    const TZ_FIXED = 'fixed';
+    const TZ_FLOAT = 'floating';
+
     public static $freqs = array(
         'YEARLY'   => 0,
         'MONTHLY'  => 1,
@@ -100,10 +104,10 @@ class Rule
     /** @var string */
     protected $timezone;
 
-    /** @var \DateTime|null */
+    /** @var \DateTimeInterface|null */
     protected $startDate;
 
-    /** @var \DateTime|null */
+    /** @var \DateTimeInterface|null */
     protected $endDate;
 
     /** @var bool */
@@ -115,7 +119,10 @@ class Rule
     /** @var int */
     protected $interval = 1;
 
-    /** @var \DateTime|null */
+    /** @var bool */
+    protected $isExplicitInterval = false;
+
+    /** @var \DateTimeInterface|null */
     protected $until;
 
     /** @var int|null */
@@ -147,6 +154,7 @@ class Rule
 
     /** @var string */
     protected $weekStart = 'MO';
+    protected $weekStartDefined = false;
 
     /** @var array */
     protected $days = array(
@@ -163,20 +171,25 @@ class Rule
     protected $bySetPosition;
 
     /** @var array */
+    protected $rDates = array();
+
+    /** @var array */
     protected $exDates = array();
 
     /**
      * Construct a new Rule.
      *
-     * @param string           $rrule RRULE string
-     * @param string|\DateTime $startDate
-     * @param \DateTime|null   $endDate
-     * @param string           $timezone
+     * @param string                    $rrule RRULE string
+     * @param string|\DateTimeInterface $startDate
+     * @param \DateTimeInterface|null   $endDate
+     * @param string                    $timezone
+     *
+     * @throws InvalidRRule
      */
     public function __construct($rrule = null, $startDate = null, $endDate = null, $timezone = null)
     {
         if (empty($timezone)) {
-            if ($startDate instanceof \DateTime) {
+            if ($startDate instanceof \DateTimeInterface) {
                 $timezone = $startDate->getTimezone()->getName();
             } else {
                 $timezone = date_default_timezone_get();
@@ -184,8 +197,8 @@ class Rule
         }
         $this->setTimezone($timezone);
 
-        if (!$startDate instanceof \DateTime) {
-            $startDate  = new \DateTime($startDate, new \DateTimeZone($timezone));
+        if (!$startDate instanceof \DateTimeInterface) {
+            $startDate = new \DateTime($startDate, new \DateTimeZone($timezone));
         }
 
         $this->setStartDate($startDate);
@@ -201,10 +214,10 @@ class Rule
     /**
      * Create a Rule object based on a RRULE string.
      *
-     * @param string           $rrule RRULE string
-     * @param string|\DateTime $startDate
-     * @param \DateTime|null   $endDate
-     * @param string           $timezone
+     * @param string                    $rrule RRULE string
+     * @param string|\DateTimeInterface $startDate
+     * @param \DateTimeInterface|null   $endDate
+     * @param string                    $timezone
      *
      * @return Rule
      * @throws InvalidRRule
@@ -219,10 +232,10 @@ class Rule
     /**
      * Create a Rule object based on a RRULE array.
      *
-     * @param array           $rrule RRULE array
-     * @param string|\DateTime $startDate
-     * @param \DateTime|null   $endDate
-     * @param string           $timezone
+     * @param array                     $rrule RRULE array
+     * @param string|\DateTimeInterface $startDate
+     * @param \DateTimeInterface|null   $endDate
+     * @param string                    $timezone
      *
      * @return Rule
      * @throws InvalidRRule
@@ -263,7 +276,7 @@ class Rule
             $parts[$key] = $val;
         }
 
-	return $this->loadFromArray($parts);
+        return $this->loadFromArray($parts);
     }
 
     /**
@@ -290,21 +303,25 @@ class Rule
         // DTSTART
         if (isset($parts['DTSTART'])) {
             $this->isStartDateFromDtstart = true;
-            $this->setStartDate(new \DateTime($parts['DTSTART'], new \DateTimeZone($this->getTimezone())));
+            $date = new \DateTime($parts['DTSTART']);
+            $date = $date->setTimezone(new \DateTimeZone($this->getTimezone()));
+            $this->setStartDate($date);
         }
 
         // DTEND
         if (isset($parts['DTEND'])) {
-            $this->setEndDate(new \DateTime($parts['DTEND'], new \DateTimeZone($this->getTimezone())));
+            $date = new \DateTime($parts['DTEND']);
+            $date = $date->setTimezone(new \DateTimeZone($this->getTimezone()));
+            $this->setEndDate($date);
         }
 
         // UNTIL or COUNT
         if (isset($parts['UNTIL']) && isset($parts['COUNT'])) {
             throw new InvalidRRule('UNTIL and COUNT must not exist together in the same RRULE');
         } elseif (isset($parts['UNTIL'])) {
-            $this->setUntil(
-                new \DateTime($parts['UNTIL'], new \DateTimeZone($this->getTimezone()))
-            );
+            $date = new \DateTime($parts['UNTIL']);
+            $date = $date->setTimezone(new \DateTimeZone($this->getTimezone()));
+            $this->setUntil($date);
         } elseif (isset($parts['COUNT'])) {
             $this->setCount($parts['COUNT']);
         }
@@ -364,10 +381,17 @@ class Rule
             $this->setWeekStart($parts['WKST']);
         }
 
+        // RDATE
+        if (isset($parts['RDATE'])) {
+            $this->setRDates(explode(',', $parts['RDATE']));
+        }
+
         // EXDATE
         if (isset($parts['EXDATE'])) {
             $this->setExDates(explode(',', $parts['EXDATE']));
         }
+
+        return $this;
     }
 
     /**
@@ -375,8 +399,10 @@ class Rule
      *
      * @return string
      */
-    public function getString()
+    public function getString($timezoneType=self::TZ_FLOAT)
     {
+        $format = 'Ymd\THis';
+
         $parts = array();
 
         // FREQ
@@ -386,24 +412,45 @@ class Rule
         $until = $this->getUntil();
         $count = $this->getCount();
         if (!empty($until)) {
-            $parts[] = 'UNTIL='.$until->format('Ymd\THis');
+            if ($timezoneType === self::TZ_FIXED) {
+                $u = clone $until;
+                $u = $u->setTimezone(new \DateTimeZone('UTC'));
+                $parts[] = 'UNTIL='.$u->format($format.'\Z');
+            } else {
+                $parts[] = 'UNTIL='.$until->format($format);
+            }
         } elseif (!empty($count)) {
             $parts[] = 'COUNT='.$count;
         }
 
         // DTSTART
         if ($this->isStartDateFromDtstart) {
-            $parts[] = 'DTSTART='.$this->getStartDate()->format('Ymd\THis');
+            if ($timezoneType === self::TZ_FIXED) {
+                $d = $this->getStartDate();
+                $tzid = $d->getTimezone()->getName();
+                $date = $d->format($format);
+                $parts[] = "DTSTART;TZID=$tzid:$date";
+            } else {
+                $parts[] = 'DTSTART='.$this->getStartDate()->format($format);
+            }
         }
 
         // DTEND
         if ($this->endDate instanceof \DateTime) {
-            $parts[] = 'DTEND='.$this->getEndDate()->format('Ymd\THis');
+            if ($timezoneType === self::TZ_FIXED) {
+                $d = $this->getEndDate();
+                $tzid = $d->getTimezone()->getName();
+                $date = $d->format($format);
+
+                $parts[] = "DTEND;TZID=$tzid:$date";
+            } else {
+                $parts[] = 'DTEND='.$this->getEndDate()->format($format);
+            }
         }
 
         // INTERVAL
         $interval = $this->getInterval();
-        if (!empty($interval)) {
+        if ($this->isExplicitInterval && !empty($interval)) {
             $parts[] = 'INTERVAL='.$interval;
         }
 
@@ -463,8 +510,24 @@ class Rule
 
         // WKST
         $weekStart = $this->getWeekStart();
-        if (!empty($weekStart)) {
+        if ($this->weekStartDefined && !empty($weekStart)) {
             $parts[] = 'WKST='.$weekStart;
+        }
+
+        // RDATE
+        $rDates = $this->getRDates();
+        if (!empty($rDates)) {
+            foreach ($rDates as $key => $inclusion) {
+                $format = 'Ymd';
+                if ($inclusion->hasTime) {
+                    $format .= '\THis';
+                    if ($inclusion->isUtcExplicit) {
+                        $format .= '\Z';
+                    }
+                }
+                $rDates[$key] = $inclusion->date->format($format);
+            }
+            $parts[] = 'RDATE='.implode(',', $rDates);
         }
 
         // EXDATE
@@ -500,7 +563,7 @@ class Rule
     }
 
     /**
-     * Get timezone to use for \DateTime() objects that are UTC.
+     * Get timezone to use for \DateTimeInterface objects that are UTC.
      *
      * @return null|string
      */
@@ -512,19 +575,24 @@ class Rule
     /**
      * This date specifies the first instance in the recurrence set.
      *
-     * @param \DateTime|null $startDate Date of the first instance in the recurrence
+     * @param \DateTimeInterface|null $startDate       Date of the first instance in the recurrence
+     * @param bool|null               $includeInString If true, include as DTSTART when calling getString()
      *
      * @return $this
      */
-    public function setStartDate($startDate)
+    public function setStartDate($startDate, $includeInString = null)
     {
         $this->startDate = $startDate;
+
+        if ($includeInString !== null) {
+            $this->isStartDateFromDtstart = (bool) $includeInString;
+        }
 
         return $this;
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTimeInterface
      */
     public function getStartDate()
     {
@@ -534,7 +602,7 @@ class Rule
     /**
      * This date specifies the last possible instance in the recurrence set.
      *
-     * @param \DateTime|null $endDate Date of the last possible instance in the recurrence
+     * @param \DateTimeInterface|null $endDate Date of the last possible instance in the recurrence
      *
      * @return $this
      */
@@ -546,7 +614,7 @@ class Rule
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTimeInterface|null
      */
     public function getEndDate()
     {
@@ -613,9 +681,7 @@ class Rule
      */
     public function getFreqAsText()
     {
-        $freq = array_search($this->getFreq(), self::$freqs);
-
-        return $freq;
+        return array_search($this->getFreq(), self::$freqs);
     }
 
     /**
@@ -640,7 +706,8 @@ class Rule
             throw new InvalidArgument('Interval must be a positive integer');
         }
 
-        $this->interval = $interval;
+        $this->interval           = $interval;
+        $this->isExplicitInterval = true;
 
         return $this;
     }
@@ -656,7 +723,7 @@ class Rule
     }
 
     /**
-     * Define a \DateTime value which bounds the recurrence rule in an
+     * Define a \DateTimeInterface value which bounds the recurrence rule in an
      * inclusive manner. If the value specified is synchronized with the
      * specified recurrence, this DateTime becomes the last instance of the
      * recurrence. If not present, and a COUNT is also not present, the RRULE
@@ -665,11 +732,11 @@ class Rule
      * Either UNTIL or COUNT may be specified, but UNTIL and COUNT MUST NOT
      * both be specified.
      *
-     * @param \DateTime $until The upper bound of the recurrence.
+     * @param \DateTimeInterface $until The upper bound of the recurrence.
      *
      * @return $this
      */
-    public function setUntil(\DateTime $until)
+    public function setUntil(\DateTimeInterface $until)
     {
         $this->until = $until;
         $this->count = null;
@@ -678,9 +745,9 @@ class Rule
     }
 
     /**
-     * Get the \DateTime that the recurrence lasts until.
+     * Get the \DateTimeInterface that the recurrence lasts until.
      *
-     * @return \DateTime|null
+     * @return \DateTimeInterface|null
      */
     public function getUntil()
     {
@@ -829,9 +896,17 @@ class Rule
      * @param array $byDay Array of days of the week
      *
      * @return $this
+     * @throws InvalidRRule
      */
     public function setByDay(array $byDay)
     {
+        if ($this->getFreq() > static::$freqs['MONTHLY'] && preg_match('/\d/', implode(',', $byDay))) {
+            throw new InvalidRRule('BYDAY only supports MONTHLY and YEARLY frequencies');
+        }
+        if (count($byDay) === 0 || $byDay === array('')) {
+            throw new InvalidRRule('BYDAY must be set to at least one day');
+        }
+
         $this->byDay = $byDay;
 
         return $this;
@@ -851,6 +926,7 @@ class Rule
      * Get an array of Weekdays
      *
      * @return array of Weekdays
+     * @throws InvalidWeekday
      */
     public function getByDayTransformedToWeekdays()
     {
@@ -861,7 +937,7 @@ class Rule
         }
 
         foreach ($byDay as $idx => $day) {
-            if (strlen($day) == 2) {
+            if (strlen($day) === 2) {
                 $byDay[$idx] = new Weekday($day, null);
             } else {
                 preg_match('/^([+-]?[0-9]+)([A-Z]{2})$/', $day, $dayParts);
@@ -1020,7 +1096,8 @@ class Rule
             throw new InvalidArgument('Week Start must be one of MO, TU, WE, TH, FR, SA, SU');
         }
 
-        $this->weekStart = $weekStart;
+        $this->weekStart        = $weekStart;
+        $this->weekStartDefined = true;
 
         return $this;
     }
@@ -1085,6 +1162,47 @@ class Rule
     }
 
     /**
+     * This rule specifies an array of dates that will be
+     * included in a recurrence set.
+     *
+     * @param string[]|DateInclusion[] $rDates Array of dates that will be
+     *                                         included in the recurrence set.
+     *
+     * @return $this
+     */
+    public function setRDates(array $rDates)
+    {
+        $timezone = new \DateTimeZone($this->getTimezone());
+
+        foreach ($rDates as $key => $val) {
+            if ($val instanceof DateInclusion) {
+                $val->date = $this->convertZtoUtc($val->date);
+            } else {
+                $date          = new \DateTime($val, $timezone);
+                $rDates[$key] = new DateInclusion(
+                    $this->convertZtoUtc($date),
+                    strpos($val, 'T') !== false,
+                    strpos($val, 'Z') !== false
+                );
+            }
+        }
+
+        $this->rDates = $rDates;
+
+        return $this;
+    }
+
+    /**
+     * Get the array of dates that will be included in a recurrence set.
+     *
+     * @return DateInclusion[]
+     */
+    public function getRDates()
+    {
+        return $this->rDates;
+    }
+
+    /**
      * This rule specifies an array of exception dates that will not be
      * included in a recurrence set.
      *
@@ -1111,6 +1229,8 @@ class Rule
         }
 
         $this->exDates = $exDates;
+
+        return $this;
     }
 
     /**
@@ -1119,19 +1239,17 @@ class Rule
      *
      * This is necessary for exclusion dates to be handled properly.
      *
-     * @param \DateTime $date
+     * @param \DateTimeInterface $date
      *
-     * @return \DateTime
+     * @return \DateTimeInterface
      */
-    private function convertZtoUtc(\DateTime $date)
+    private function convertZtoUtc(\DateTimeInterface $date)
     {
         if ($date->getTimezone()->getName() !== 'Z') {
             return $date;
         }
 
-        $date->setTimezone(new \DateTimeZone('UTC'));
-
-        return $date;
+        return $date->setTimezone(new \DateTimeZone('UTC'));
     }
 
     /**
@@ -1142,5 +1260,13 @@ class Rule
     public function getExDates()
     {
         return $this->exDates;
+    }
+
+    /**
+     * @return bool
+     */
+    public function repeatsIndefinitely()
+    {
+        return !$this->getCount() && !$this->getUntil() && !$this->getEndDate();
     }
 }

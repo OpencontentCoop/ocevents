@@ -12,5 +12,10 @@ $ViewList['parse'] = array(
     'functions' => array( 'use' )
 );
 
+$ViewList['search'] = array(
+  'script' =>	'search.php',
+  'functions' => array( 'use' )
+);
+
 $FunctionList = array();
 $FunctionList['use'] = array();

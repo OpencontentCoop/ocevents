@@ -3,6 +3,7 @@
 namespace Recurr\Test\Transformer;
 
 use Recurr\Rule;
+use Recurr\Transformer\ArrayTransformerConfig;
 
 class ArrayTransformerTest extends ArrayTransformerBase
 {
@@ -13,15 +14,16 @@ class ArrayTransformerTest extends ArrayTransformerBase
             new \DateTime('2014-03-16 04:00:00')
         );
 
-        $this->transformer->setVirtualLimit(5);
+        $config = new ArrayTransformerConfig();
+        $this->transformer->setConfig($config);
+
+        $config->setVirtualLimit(5);
         $computed = $this->transformer->transform($rule);
         $this->assertCount(5, $computed);
 
-        $computed = $this->transformer->transform($rule, 10);
-        $this->assertCount(10, $computed);
-
+        $config->setVirtualLimit(40);
         $computed = $this->transformer->transform($rule);
-        $this->assertCount(5, $computed);
+        $this->assertCount(30, $computed);
     }
 
     public function testVirtualLimitWithoutCountLimit()
@@ -31,15 +33,16 @@ class ArrayTransformerTest extends ArrayTransformerBase
             new \DateTime('2014-03-16 04:00:00')
         );
 
-        $this->transformer->setVirtualLimit(5);
+        $config = new ArrayTransformerConfig();
+        $this->transformer->setConfig($config);
+
+        $config->setVirtualLimit(5);
         $computed = $this->transformer->transform($rule);
         $this->assertCount(5, $computed);
 
-        $computed = $this->transformer->transform($rule, 10);
+        $config->setVirtualLimit(10);
+        $computed = $this->transformer->transform($rule);
         $this->assertCount(10, $computed);
-
-        $computed = $this->transformer->transform($rule);
-        $this->assertCount(5, $computed);
     }
 
     public function testUntil()
@@ -97,5 +100,19 @@ class ArrayTransformerTest extends ArrayTransformerBase
         $this->assertEquals(new \DateTime('2003-01-05 09:30:00'), $computed[27]->getStart());
         $this->assertEquals(new \DateTime('2003-01-12 08:30:00'), $computed[28]->getStart());
         $this->assertEquals(new \DateTime('2003-01-12 09:30:00'), $computed[29]->getStart());
+    }
+
+    public function testIndex()
+    {
+        $rule = new Rule(
+            'FREQ=YEARLY;COUNT=10',
+            new \DateTime('2000-01-01 09:00:00')
+        );
+
+        $computed = $this->transformer->transform($rule);
+
+        $this->assertCount(10, $computed);
+        $this->assertEquals(1, $computed[0]->getIndex());
+        $this->assertEquals(10, $computed[9]->getIndex());
     }
 }

@@ -26,7 +26,7 @@
 
 <div class="row fuelux">
     <div class="col-md-12">
-        <div class="form-horizontal scheduler" data-initialize="fullscheduler" role="form" id="myScheduler">
+        <div class="form-horizontal scheduler" data-initialize="fullscheduler" role="form" id="{concat('scheduler_', $attribute.id)}">
             <div class="row form-group start-datetime">
                 <label class="col-sm-12 scheduler-label" for="myStartDate">Inizio</label>
                 <div class="col-sm-9 form-group">
@@ -505,8 +505,8 @@
                         <div class="datepicker input-group end-on-date">
                             <div class="input-group">
                                 <input class="form-control" type="text"/>
-
-                                <div class="input-group-btn">
+                                {include uri='design:recurrence/parts/datepicker.tpl'}
+                                {*<div class="input-group-btn">
                                     <button type="button"
                                             class="btn btn-default dropdown-toggle"
                                             data-toggle="dropdown">
@@ -617,7 +617,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>*}
                             </div>
                         </div>
                     </div>
@@ -630,13 +630,13 @@
     <div class="col-md-12">
         <input type="hidden" id="has_content" value="{$attribute.has_content}">
         <h3>Text</h3>
-        <textarea id="demoResult1" name="{$attribute_base}_ocevent_data_{$attribute.id}[text]" rows="1" cols="50" class="form-control">{if $content.text}{$content.text}{/if}</textarea>
+        <textarea id="events_text" name="{$attribute_base}_ocevent_data_{$attribute.id}[text]" rows="1" cols="50" class="form-control">{if $content.text}{$content.text}{/if}</textarea>
 
         <h3>Input</h3>
-        <textarea id="demoInput" name="{$attribute_base}_ocevent_data_{$attribute.id}[input]" rows="10" cols="50" class="form-control">{if $content.input_json}{$content.input_json}{/if}</textarea>
+        <textarea id="events_input" name="{$attribute_base}_ocevent_data_{$attribute.id}[input]" rows="10" cols="50" class="form-control">{if $content.input_json}{$content.input_json}{/if}</textarea>
 
         <h3>Recurrences</h3>
-        <textarea id="demoResult2" name="{$attribute_base}_ocevent_data_{$attribute.id}[recurrences]" rows="10" cols="50" class="form-control">{if $content.recurrences_json}{$content.recurrences_json}{/if}</textarea>
+        <textarea id="events_recurrences" name="{$attribute_base}_ocevent_data_{$attribute.id}[recurrences]" rows="10" cols="50" class="form-control">{if $content.recurrences_json}{$content.recurrences_json}{/if}</textarea>
 
         <h3>Events</h3>
         <textarea id="events" name="{$attribute_base}_ocevent_data_{$attribute.id}[events]" rows="10" cols="50" class="form-control">{if $content.events_json}{$content.events_json}{/if}</textarea>
@@ -671,7 +671,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal" id="delete-event"><i class="fa fa-trash"></i> Elimina</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
+                {*<button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>*}
                 <button type="button" class="btn btn-success" data-dismiss="modal" id="save-event"><i class="fa fa-save"></i> Salva</button>
             </div>
         </div><!-- /.modal-content -->
@@ -692,13 +692,27 @@
     {literal}
     $(document).ready(function () {
 
-      /*moment().locale('it');*/
+      // Fix button event on datepicker
+      $('.datepicker-calendar :button').on('click', function( event ) {
+        console.log('aaaaa');
+        event.preventDefault();
+      });
+      moment().locale('it');
 
-      $('#myscheduler').fullscheduler();
+      var scheduler = $("#{/literal}{concat('scheduler_', $attribute.id)}{literal}");
+      scheduler.fullscheduler({
+        startDateOptions: {
+          allowPastDates: true
+        },
+        endDateOptions: {
+          allowPastDates: true
+        }
+      });
+
       {/literal}
         {if and($content.input.startDateTime, $content.input.endDateTime, $content.input.recurrencePattern)}
             {literal}
-              $('#myScheduler').fullscheduler('value', {
+              scheduler.fullscheduler('value', {
                 startDateTime: "{/literal}{$content.input.startDateTime}{literal}",
                 endDateTime: "{/literal}{$content.input.endDateTime}{literal}",
                 /*timeZone: "W. Europe Standard Time",*/
@@ -708,16 +722,16 @@
         {/if}
       {literal}
 
-      $('#myScheduler').on('changed.fu.fullscheduler', function () {
-        var input = $('#myScheduler').fullscheduler('value');
-        $('#demoInput').val(JSON.stringify(input));
+      scheduler.on('changed.fu.fullscheduler', function () {
+        var input = scheduler.fullscheduler('value');
+        $('#events_input').val(JSON.stringify(input));
         $.ajax({
           type: "POST",
           url: "{/literal}{'/recurrence/parse'|ezurl(no)}{literal}",
           data: input,
           success: function (data) {
-            $('#demoResult1').val(data.text);
-            $('#demoResult2').val(JSON.stringify(data.recurrences));
+            $('#events_text').val(data.text);
+            $('#events_recurrences').val(JSON.stringify(data.recurrences));
 
             $('#calendar').fullCalendar('removeEvents');
             $('#calendar').fullCalendar('addEventSource', data.recurrences);
@@ -740,7 +754,7 @@
         aspectRatio: 1.35,
         navLinks: true, // can click day/week names to navigate views
         editable: true,
-        eventLimit: true, // allow "more" link when too many events
+        eventLimit: false, // allow "more" link when too many events
         events: [
           {/literal}{foreach $content.events as $r}{/literal}
               {
@@ -753,10 +767,6 @@
         eventClick: function(event, element) {
           // Display the modal and set the values to the event values.
           $('.modal').modal('show');
-          /*$('.modal').find('#title').val(event.title);
-          $('.modal').find('#starts-at').val( moment(event.start).format('YYYY-MM-DD HH:mm:ss') );
-          $('.modal').find('#ends-at').val( moment(event.end).format('YYYY-MM-DD HH:mm:ss') );*/
-
           $('.modal').find('#starts-at').val( moment(event.start).format('DD/MM/YYYY HH:mm') );
           $('.modal').find('#ends-at').val( moment(event.end).format('DD/MM/YYYY HH:mm') );
 
@@ -785,7 +795,6 @@
         },
 
         eventAfterAllRender: function (view) {
-          /*console.log( $("#calendar").fullCalendar('clientEvents'));*/
           var json = JSON.stringify( $("#calendar").fullCalendar("clientEvents").map(function(e) {
             return {
               id: e.id,
@@ -795,8 +804,6 @@
           }));
           $('#events').val(json);
         }
-
-
       });
 
       // Bind the dates to datetimepicker.
