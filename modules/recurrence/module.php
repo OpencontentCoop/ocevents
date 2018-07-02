@@ -17,5 +17,10 @@ $ViewList['search'] = array(
   'functions' => array( 'use' )
 );
 
+$ViewList['calendar'] = array(
+  'script' =>	'calendar.php',
+  'functions' => array( 'use' )
+);
+
 $FunctionList = array();
 $FunctionList['use'] = array();
