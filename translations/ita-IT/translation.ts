@@ -76,8 +76,32 @@
         <translation>Dom</translation>
     </message>
     <message>
-        <source>Sunday</source>
-        <translation>Domenica</translation>
+    <source>Mo</source>
+    <translation>Lu</translation>
+    </message>
+    <message>
+    <source>Tu</source>
+    <translation>Ma</translation>
+    </message>
+    <message>
+    <source>We</source>
+    <translation>Me</translation>
+    </message>
+    <message>
+    <source>Th</source>
+    <translation>Gi</translation>
+    </message>
+    <message>
+    <source>Fr</source>
+    <translation>Ve</translation>
+    </message>
+    <message>
+    <source>Sa</source>
+    <translation>Sa</translation>
+    </message>
+    <message>
+    <source>Su</source>
+    <translation>Do</translation>
     </message>
     <message>
         <source>on the</source>
@@ -180,6 +204,54 @@
         <translation>Dicembre</translation>
     </message>
     <message>
+        <source>Jan</source>
+        <translation>Gen</translation>
+    </message>
+    <message>
+        <source>Feb</source>
+        <translation>Feb</translation>
+    </message>
+    <message>
+        <source>Mar</source>
+        <translation>Mar</translation>
+    </message>
+    <message>
+        <source>Apr</source>
+        <translation>Apr</translation>
+    </message>
+    <message>
+        <source>May</source>
+        <translation>Mag</translation>
+    </message>
+    <message>
+        <source>Jun</source>
+        <translation>Giu</translation>
+    </message>
+    <message>
+        <source>Jul</source>
+        <translation>Lug</translation>
+    </message>
+    <message>
+        <source>Aug</source>
+        <translation>Ago</translation>
+    </message>
+    <message>
+        <source>Sep</source>
+        <translation>Set</translation>
+    </message>
+    <message>
+        <source>Oct</source>
+        <translation>Ott</translation>
+    </message>
+    <message>
+        <source>Nov</source>
+        <translation>Nov</translation>
+    </message>
+    <message>
+        <source>Dec</source>
+        <translation>Dic</translation>
+    </message>
+    <message>
         <source>End recurrence</source>
         <translation>Fine ricorrenza</translation>
     </message>
@@ -203,11 +275,209 @@
         <source>occurance(s)</source>
         <translation>ricorrenza/e</translation>
     </message>
-
     <message>
         <source>12:00 AM</source>
         <translation>00:00</translation>
     </message>
-
+    <message>
+        <source>12:30 AM</source>
+        <translation>00:30</translation>
+    </message>
+    <message>
+        <source>1:00 AM</source>
+        <translation>01:00</translation>
+    </message>
+    <message>
+        <source>1:30 AM</source>
+        <translation>01:30</translation>
+    </message>
+    <message>
+        <source>2:00 AM</source>
+        <translation>02:00</translation>
+    </message>
+    <message>
+        <source>2:30 AM</source>
+        <translation>02:30</translation>
+    </message>
+    <message>
+        <source>3:00 AM</source>
+        <translation>03:00</translation>
+    </message>
+    <message>
+        <source>3:30 AM</source>
+        <translation>03:30</translation>
+    </message>
+    <message>
+        <source>4:00 AM</source>
+        <translation>04:00</translation>
+    </message>
+    <message>
+        <source>4:30 AM</source>
+        <translation>04:30</translation>
+    </message>
+    <message>
+        <source>5:00 AM</source>
+        <translation>05:00</translation>
+    </message>
+    <message>
+        <source>5:30 AM</source>
+        <translation>05:30</translation>
+    </message>
+    <message>
+         <source>6:00 AM</source>
+        <translation>06:00</translation>
+    </message>
+    <message>
+        <source>6:30 AM</source>
+        <translation>06:30</translation>
+    </message>
+    <message>
+        <source>7:00 AM</source>
+        <translation>07:00</translation>
+    </message>
+    <message>
+        <source>7:30 AM</source>
+        <translation>07:30</translation>
+    </message>
+    <message>
+        <source>8:00 AM</source>
+        <translation>08:00</translation>
+    </message>
+    <message>
+        <source>8:30 AM</source>
+        <translation>08:30</translation>
+    </message>
+    <message>
+        <source>9:00 AM</source>
+        <translation>09:00</translation>
+    </message>
+    <message>
+        <source>9:30 AM</source>
+        <translation>09:30</translation>
+    </message>
+    <message>
+        <source>10:00 AM</source>
+        <translation>10:00</translation>
+    </message>
+    <message>
+        <source>10:30 AM</source>
+        <translation>10:30</translation>
+    </message>
+    <message>
+        <source>11:00 AM</source>
+        <translation>11:00</translation>
+    </message>
+    <message>
+        <source>11:30 AM</source>
+        <translation>11:30</translation>
+    </message>
+    <message>
+        <source>11:30 AM</source>
+        <translation>11:30</translation>
+    </message>
+    <message>
+        <source>12:00 PM</source>
+        <translation>12:00</translation>
+    </message>
+    <message>
+        <source>12:30 PM</source>
+        <translation>12:30</translation>
+    </message>
+    <message>
+        <source>1:00 PM</source>
+        <translation>13:00</translation>
+    </message>
+    <message>
+        <source>1:30 PM</source>
+        <translation>13:30</translation>
+    </message>
+    <message>
+        <source>2:00 PM</source>
+        <translation>14:00</translation>
+    </message>
+    <message>
+        <source>2:30 PM</source>
+        <translation>14:30</translation>
+    </message>
+    <message>
+        <source>3:00 PM</source>
+        <translation>15:00</translation>
+    </message>
+    <message>
+        <source>3:30 PM</source>
+        <translation>15:30</translation>
+    </message>
+    <message>
+        <source>4:00 PM</source>
+        <translation>16:00</translation>
+    </message>
+    <message>
+        <source>4:30 PM</source>
+        <translation>16:30</translation>
+    </message>
+    <message>
+        <source>5:00 PM</source>
+        <translation>17:00</translation>
+    </message>
+    <message>
+        <source>5:30 PM</source>
+        <translation>17:30</translation>
+    </message>
+    <message>
+        <source>6:00 PM</source>
+        <translation>18:00</translation>
+    </message>
+    <message>
+        <source>6:30 PM</source>
+        <translation>18:30</translation>
+    </message>
+    <message>
+        <source>7:00 PM</source>
+        <translation>19:00</translation>
+    </message>
+    <message>
+        <source>7:30 PM</source>
+        <translation>19:30</translation>
+    </message>
+    <message>
+        <source>8:00 PM</source>
+        <translation>20:00</translation>
+    </message>
+    <message>
+        <source>8:30 PM</source>
+        <translation>20:30</translation>
+    </message>
+    <message>
+        <source>9:00 PM</source>
+        <translation>21:00</translation>
+    </message>
+    <message>
+        <source>9:30 PM</source>
+        <translation>21:30</translation>
+    </message>
+    <message>
+        <source>10:00 PM</source>
+        <translation>22:00</translation>
+    </message>
+    <message>
+        <source>10:30 PM</source>
+        <translation>22:30</translation>
+    </message>
+    <message>
+        <source>11:00 PM</source>
+        <translation>23:00</translation>
+    </message>
+    <message>
+        <source>11:30 PM</source>
+        <translation>23:30</translation>
+    </message>
+    <message>
+        <source>Month</source>
+        <translation>Mese</translation>
+    </message>
+    <message>
+    <source>Year</source>
+        <translation>Anno</translation>
+    </message>
 </context>
 </TS>

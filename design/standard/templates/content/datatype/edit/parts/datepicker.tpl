@@ -16,18 +16,18 @@
                 </button>
                 <button class="title">
                     <span class="month">
-                        <span data-month="0">January</span>
-                        <span data-month="1">February</span>
-                        <span data-month="2">March</span>
-                        <span data-month="3">April</span>
-                        <span data-month="4">May</span>
-                        <span data-month="5">June</span>
-                        <span data-month="6">July</span>
-                        <span data-month="7">August</span>
-                        <span data-month="8">September</span>
-                        <span data-month="9">October</span>
-                        <span data-month="10">November</span>
-                        <span data-month="11">December</span>
+                        <span data-month="0">{'January'|i18n('ocevents/attribute')}</span>
+                        <span data-month="1">{'February'|i18n('ocevents/attribute')}</span>
+                        <span data-month="2">{'March'|i18n('ocevents/attribute')}</span>
+                        <span data-month="3">{'April'|i18n('ocevents/attribute')}</span>
+                        <span data-month="4">{'May'|i18n('ocevents/attribute')}</span>
+                        <span data-month="5">{'June'|i18n('ocevents/attribute')}</span>
+                        <span data-month="6">{'July'|i18n('ocevents/attribute')}</span>
+                        <span data-month="7">{'August'|i18n('ocevents/attribute')}</span>
+                        <span data-month="8">{'September'|i18n('ocevents/attribute')}</span>
+                        <span data-month="9">{'October'|i18n('ocevents/attribute')}</span>
+                        <span data-month="10">{'November'|i18n('ocevents/attribute')}</span>
+                        <span data-month="11">{'December'|i18n('ocevents/attribute')}</span>
                     </span>
                     <span class="year"></span>
                 </button>
@@ -35,13 +35,13 @@
             <table class="datepicker-calendar-days">
                 <thead>
                 <tr>
-                    <th>Su</th>
-                    <th>Mo</th>
-                    <th>Tu</th>
-                    <th>We</th>
-                    <th>Th</th>
-                    <th>Fr</th>
-                    <th>Sa</th>
+                    <th>{'Su'|i18n('ocevents/attribute')}</th>
+                    <th>{'Mo'|i18n('ocevents/attribute')}</th>
+                    <th>{'Tu'|i18n('ocevents/attribute')}</th>
+                    <th>{'We'|i18n('ocevents/attribute')}</th>
+                    <th>{'Th'|i18n('ocevents/attribute')}</th>
+                    <th>{'Fr'|i18n('ocevents/attribute')}</th>
+                    <th>{'Sa'|i18n('ocevents/attribute')}</th>
                 </tr>
                 </thead>
                 <tbody></tbody>
@@ -52,24 +52,24 @@
         </div>
         <div class="datepicker-wheels" aria-hidden="true">
             <div class="datepicker-wheels-month">
-                <h2 class="header">Month</h2>
+                <h2 class="header">{'Month'|i18n('ocevents/attribute')}</h2>
                 <ul>
-                    <li data-month="0"><button>Jan</button></li>
-                    <li data-month="1"> <button>Feb</button></li>
-                    <li data-month="2"><button>Mar</button></li>
-                    <li data-month="3"><button>Apr</button></li>
-                    <li data-month="4"><button>May</button></li>
-                    <li data-month="5"><button>Jun</button></li>
-                    <li data-month="6"><button>Jul</button></li>
-                    <li data-month="7"><button>Aug</button></li>
-                    <li data-month="8"><button>Sep</button></li>
-                    <li data-month="9"><button>Oct</button></li>
-                    <li data-month="10"><button>Nov</button></li>
-                    <li data-month="11"><button>Dec</button></li>
+                    <li data-month="0"><button>{'Jan'|i18n('ocevents/attribute')}</button></li>
+                    <li data-month="1"> <button>{'Feb'|i18n('ocevents/attribute')}</button></li>
+                    <li data-month="2"><button>{'Mar'|i18n('ocevents/attribute')}</button></li>
+                    <li data-month="3"><button>{'Apr'|i18n('ocevents/attribute')}</button></li>
+                    <li data-month="4"><button>{'May'|i18n('ocevents/attribute')}</button></li>
+                    <li data-month="5"><button>{'Jun'|i18n('ocevents/attribute')}</button></li>
+                    <li data-month="6"><button>{'Jul'|i18n('ocevents/attribute')}</button></li>
+                    <li data-month="7"><button>{'Aug'|i18n('ocevents/attribute')}</button></li>
+                    <li data-month="8"><button>{'Sep'|i18n('ocevents/attribute')}</button></li>
+                    <li data-month="9"><button>{'Oct'|i18n('ocevents/attribute')}</button></li>
+                    <li data-month="10"><button>{'Nov'|i18n('ocevents/attribute')}</button></li>
+                    <li data-month="11"><button>{'Dec'|i18n('ocevents/attribute')}</button></li>
                 </ul>
             </div>
             <div class="datepicker-wheels-year">
-                <h2 class="header">Year</h2>
+                <h2 class="header">{'Year'|i18n('ocevents/attribute')}</h2>
                 <ul></ul>
             </div>
             <div class="datepicker-wheels-footer clearfix">
