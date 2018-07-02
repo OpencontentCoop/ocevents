@@ -2,10 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
-    <name>protonterapia/home</name>
-    <message>
-        <source>Title</source>
-        <translation type="unfinished"></translation>
-    </message>
+    <name>ocevents/attribute</name>
 </context>
 </TS>
