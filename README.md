@@ -18,7 +18,7 @@ Unpack the downloaded package into the `extension` directory of your eZ Publish 
 ### Activate extension
 
 Activate the extension by using the admin interface ( Setup -> Extensions ) or by
-prepending `eztags` to `ActiveExtensions[]` in `settings/override/site.ini.append.php`:
+prepending `ocevents` to `ActiveExtensions[]` in `settings/override/site.ini.append.php`:
 
     [ExtensionSettings]
     ActiveExtensions[]=ocevents

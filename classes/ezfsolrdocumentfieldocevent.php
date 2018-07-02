@@ -84,7 +84,7 @@ class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
         $metaData = json_decode( $this->ContentObjectAttribute->metaData(), true);
 
         $datePoints = array();
-        unset($metaData[0]);
+        //unset($metaData[0]);
         foreach ($metaData as $k => $v) {
 
             $start = $this->parseDate($v['start']);
@@ -93,19 +93,26 @@ class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
             if ( !is_null($start) && !is_null($end) ) {
                 $datePoints []= (string) $start . ' ' . $end;
             }
-            break;
+            //break;
 
         }
 
-        /*echo '<pre>';
-        $data [$attributeFieldName] = $datePoints;
-        print_r($data);
 
-        $data [$attributeFieldName] = array('1 1', '2 4', '2 5', '2 6', '2 7', time() . ' ' . time());
-        print_r($data);
-        exit;*/
+      /*
+      <field name="attr_event____dp">1530226800 1530234000</field>
+      <field name="attr_event____dp">1530313200 1530320400</field>
+      <field name="attr_event____dp">1530399600 1530406800</field>
+      <field name="attr_event____dp">1530486000 1530493200</field>
+      <field name="attr_event____dp">1530658800 1530666000</field>
+      */
 
-        $data [$attributeFieldName] = $datePoints;
+      //$data [$attributeFieldName] = $datePoints;
+      //$data [$attributeFieldName] = array('1 1', '2 4', '2 5', '2 6', '2 7', time() . ' ' . time(), time() . ' ' . time(), time() . ' ' . time());
+      $data [$attributeFieldName] = array('1530313200 1530320400');
+        //$data [$attributeFieldName] = array('1530313200 1530320400');
+
+
+        //$data [$attributeFieldName] = $datePoints;
 
         return $data;
     }
