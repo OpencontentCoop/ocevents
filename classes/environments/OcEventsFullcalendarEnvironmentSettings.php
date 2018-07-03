@@ -111,7 +111,6 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
     if (!isset($query['SearchOffset'])) {
       $query['SearchOffset'] = 0;
     }
-
     return $query;
   }
 }

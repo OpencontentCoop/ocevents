@@ -42,7 +42,6 @@
     {/if}
     $.opendataTools.settings('accessPath', "{''|ezurl(no,full)}");
     $.opendataTools.settings('language', "{$current_language}");
-    //$.opendataTools.settings('base_query', "classes [test_event] and subtree [20155]");
     $.opendataTools.settings('base_query', "{$base_query}");
     $.opendataTools.settings('locale', "{$moment_language}");
 
@@ -53,6 +52,8 @@
 
 
 </script>
+
+{$base_query}
 
 {include uri='design:agenda/parts/calendar/tpl-spinner.tpl'}
 {include uri='design:agenda/parts/calendar/tpl-empty.tpl'}
