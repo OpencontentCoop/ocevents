@@ -4,6 +4,9 @@
 class OCRecurrenceHelper
 {
     const FORMAT = 'Y-m-d\TH:iP';
+    const SOLR_FILED_NAME = 'attr_recurrences_dp';
+    const MIN_BOUND = '0';
+    const MAX_BOUND = '2524607999';
 
     private $phpHasBug = false;
 

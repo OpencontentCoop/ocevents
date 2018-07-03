@@ -6,10 +6,6 @@ use Opencontent\Opendata\Api\Values\Content;
 
 class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
 {
-
-  const MIN_BOUND = '0';
-  const MAX_BOUND = '2524607999';
-
   protected $maxSearchLimit = 300;
 
   public function filterContent(Content $content)
@@ -38,7 +34,7 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
     $events = [];
     if ($searchResults->totalCount > 0) {
       foreach ($searchResults->searchHits as $content) {
-        $events[] = $this->convertContentToFullcalendarItem($content);
+        $events = array_merge($events, $this->convertContentToFullcalendarItem($content));
       }
     }
     return $events;
@@ -46,28 +42,45 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
 
   private function convertContentToFullcalendarItem(Content $content)
   {
+
     $data = $this->getFirstLocale($content->data);
-    $from = isset($data['from_time']['content']) ? $data['from_time']['content'] : $content->metadata->published;
-    $to = isset($data['to_time']['content']) ? $data['to_time']['content'] : null;
-    $allDay = false;
-    if ($to) {
-      $fromDateTime = DateTime::createFromFormat(DateTime::ISO8601, $from);
-      $toDateTime = DateTime::createFromFormat(DateTime::ISO8601, $to);
-      if ($fromDateTime instanceof DateTime && $toDateTime instanceof DateTime) {
-        $diff = $toDateTime->diff($fromDateTime);
-        if ($diff instanceof DateInterval) {
-          $allDay = (bool)$diff->days;
+    $recurrences = array();
+    $recurrences_data = json_decode($data['recurrences']['content'], true);
+
+    $eventId      = $content->metadata->id;
+    $eventTitle   = $this->getFirstLocale($content->metadata->name);
+    $eventContent = parent::filterContent($content);
+
+    foreach ($recurrences_data['events'] as $k => $v) {
+
+      $from = $v['start'];
+      $to = $v['end'];
+      $allDay = false;
+
+      if ($to) {
+        $fromDateTime = DateTime::createFromFormat(DateTime::ISO8601, $from);
+        $toDateTime = DateTime::createFromFormat(DateTime::ISO8601, $to);
+
+        // Todo: Verificare che la ricoorennza cada nel periodo passato
+        if ($fromDateTime instanceof DateTime && $toDateTime instanceof DateTime) {
+          $diff = $toDateTime->diff($fromDateTime);
+          if ($diff instanceof DateInterval) {
+            $allDay = (bool)$diff->days;
+          }
         }
       }
+
+      $event = new OcEventsFullCalendarEvent();
+      $event->setId($eventId)
+        ->setTitle($eventTitle)
+        ->setStart($from)
+        ->setEnd($to)
+        ->setAllDay($allDay)
+        ->setContent($eventContent);
+
+      $recurrences [] = $event;
     }
-    $event = new OcEventsFullCalendarEvent();
-    $event->setId($content->metadata->id)
-      ->setTitle($this->getFirstLocale($content->metadata->name))
-      ->setStart($from)
-      ->setEnd($to)
-      ->setAllDay($allDay)
-      ->setContent(parent::filterContent($content));
-    return $event;
+    return $recurrences;
   }
 
   private function getFirstLocale($value)
@@ -93,7 +106,7 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
     $start = strtotime($parameters['start']);
     $end = strtotime($parameters['end']);
 
-    $calendarQuery = 'raw[attr_event_dp] = "Intersects\(' . self::MIN_BOUND . ' ' . $start . ' ' . $end . ' ' . self::MAX_BOUND . '\)"';
+    $calendarQuery = 'raw[' . OCRecurrenceHelper::SOLR_FILED_NAME . '] = "Intersects\(' . OCRecurrenceHelper::MIN_BOUND . ' ' . $start . ' ' . $end . ' ' . OCRecurrenceHelper::MAX_BOUND . '\)"';
     $queryObject = $builder->instanceQuery($calendarQuery);
     $calendarQuery = $queryObject->convert();
     $query = new ArrayObject(

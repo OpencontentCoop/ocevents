@@ -3,4 +3,7 @@
 [RegionalSettings]
 TranslationExtensions[]=ocevents
 
+[TemplateSettings]
+ExtensionAutoloadPath[]=ocevents
+
 */ ?>
