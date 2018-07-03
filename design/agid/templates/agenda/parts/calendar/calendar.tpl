@@ -93,6 +93,7 @@
     /*$.opendataTools.settings('min_bound', "{get_min_bound()}");
     $.opendataTools.settings('max_bound', "{get_max_bound()}");*/
 
+    // Fixme
     var min_bound = "{get_min_bound()}";
     var max_bound = "{get_max_bound()}";
     var solr_field_name = "{get_solr_field_name()}";
