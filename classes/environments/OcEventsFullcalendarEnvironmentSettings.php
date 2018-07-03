@@ -106,7 +106,7 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
     $start = strtotime($parameters['start']);
     $end = strtotime($parameters['end']);
 
-    $calendarQuery = 'raw[' . OCRecurrenceHelper::SOLR_FILED_NAME . '] = "Intersects\(' . OCRecurrenceHelper::MIN_BOUND . ' ' . $start . ' ' . $end . ' ' . OCRecurrenceHelper::MAX_BOUND . '\)"';
+    $calendarQuery = 'raw[' . OCRecurrenceHelper::SOLR_FIELD_NAME . '] = "Intersects\(' . OCRecurrenceHelper::MIN_BOUND . ' ' . $start . ' ' . $end . ' ' . OCRecurrenceHelper::MAX_BOUND . '\)"';
     $queryObject = $builder->instanceQuery($calendarQuery);
     $calendarQuery = $queryObject->convert();
     $query = new ArrayObject(

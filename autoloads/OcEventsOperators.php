@@ -59,6 +59,10 @@ class OcEventsOperators
           case 'get_max_bound':
             return $operatorValue = OCRecurrenceHelper::MAX_BOUND;
             break;
+
+          case 'get_solr_field_name':
+            return $operatorValue = OCRecurrenceHelper::SOLR_FIELD_NAME;
+            break;
         }
     }
 }

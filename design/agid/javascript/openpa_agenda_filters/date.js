@@ -62,9 +62,9 @@ var OpenpaAgendaDateFilter = {
 
             if (start != '*'){
                 if (end == '*') {
-                    return 'calendar[] = [' + start.set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ',*]';
+                  return 'raw['+ solr_field_name +'] = "Intersects\\(' + min_bound + ' ' + start.set('hour', 0).set('minute', 0).format('x')/1000 + ' ' + max_bound + ' ' + max_bound + '\\)"';
                 } else {
-                    return 'calendar[] = [' + start.set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ',' + end.set('hour', 23).set('minute', 59).format('YYYY-MM-DD HH:mm') + ']';
+                  return 'raw['+ solr_field_name +'] = "Intersects\\(' + min_bound + ' ' + start.set('hour', 0).set('minute', 0).format('x')/1000 + ' ' + end.set('hour', 23).set('minute', 59).format('x')/1000 + ' ' + max_bound + '\\)"';
                 }
             }
         }

@@ -5,6 +5,7 @@ $eZTemplateOperatorArray[] = array(
     'class' => 'OcEventsOperators',
     'operator_names' => array(
       'get_min_bound',
-      'get_max_bound'
+      'get_max_bound',
+      'get_solr_field_name'
     )
 );
