@@ -7,7 +7,7 @@ class OCEventType extends eZDataType
 
     function __construct()
     {
-        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'kernel/classes/datatypes', 'Opencontennt Event', 'Datatype name' ),
+        $this->eZDataType( self::DATA_TYPE_STRING, ezpI18n::tr( 'ocevents/attribute', 'Recurrent event', 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -33,6 +33,38 @@ class OCEventType extends eZDataType
             {
                 $jsonString = json_encode( $data_array );
                 $contentObjectAttribute->setAttribute( 'data_text', $jsonString );
+            }
+        }
+        return eZInputValidator::STATE_ACCEPTED;
+    }
+
+    /**
+     * Avoid multiple ocevent datatype
+     *
+     * @param eZHTTPTool $http
+     * @param string $base
+     * @param eZContentClassAttribute $classAttribute
+     *
+     * @return int
+     */
+    function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
+    {
+        if ( $http->hasPostVariable( 'StoreButton' ) || $http->hasPostVariable( 'ApplyButton' ) )
+        {
+            // find the class and count how many recurrence datatype
+            $cond = array( 'contentclass_id' => $classAttribute->attribute( 'contentclass_id' ),
+                           'version' => eZContentClass::VERSION_STATUS_TEMPORARY,
+                           'data_type_string' => $classAttribute->attribute( 'data_type_string' ) );
+            /** @var eZContentClassAttribute[] $classAttributeList */
+            $classAttributeList = eZContentClassAttribute::fetchFilteredList( $cond );
+            // if there is more than 1 recurrence attribute, return it as INVALID
+            if ( !is_null( $classAttributeList ) && count( $classAttributeList ) > 1 )
+            {
+                if ( $classAttributeList[0]->attribute( 'id' ) == $classAttribute->attribute( 'id' ) )
+                {
+                    eZDebug::writeNotice( 'There are more than 1 recurrence attribute in the class.', __METHOD__ );
+                    return eZInputValidator::STATE_INVALID;
+                }
             }
         }
         return eZInputValidator::STATE_ACCEPTED;

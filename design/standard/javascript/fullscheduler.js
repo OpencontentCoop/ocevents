@@ -131,7 +131,6 @@
 		},
 
 		changed: function (e, data, propagate) {
-			console.log(e);
 			if (!propagate) {
 				e.stopPropagation();
 			}

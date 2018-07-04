@@ -4,6 +4,10 @@
 <context>
     <name>ocevents/attribute</name>
     <message>
+        <source>Recurrent event</source>
+        <translation>Evento ricorrente</translation>
+    </message>
+    <message>
         <source>Start</source>
         <translation>Inizio</translation>
     </message>
