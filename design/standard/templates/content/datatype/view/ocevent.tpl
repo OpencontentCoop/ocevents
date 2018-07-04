@@ -13,6 +13,7 @@
         // Calendar
     $('#calendar').fullCalendar({
       locale: 'it',
+      defaultDate: {/literal}{if is_set($attribute.content.events[0])}moment('{$attribute.content.events[0].start}'){else}moment(){/if}{/literal},
       header: {
         left: 'prev,next',
         center: 'title',

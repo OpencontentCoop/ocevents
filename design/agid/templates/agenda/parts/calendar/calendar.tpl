@@ -90,13 +90,11 @@
     $.opendataTools.settings('language', "{$current_language}");
     $.opendataTools.settings('base_query', "{$base_query}");
     $.opendataTools.settings('locale', "{$moment_language}");
-    /*$.opendataTools.settings('min_bound', "{get_min_bound()}");
-    $.opendataTools.settings('max_bound', "{get_max_bound()}");*/
 
     // Fixme
-    var min_bound = "{get_min_bound()}";
-    var max_bound = "{get_max_bound()}";
-    var solr_field_name = "{get_solr_field_name()}";
+    var min_bound = "{recurrences_min_bound()}";
+    var max_bound = "{recurrences_max_bound()}";
+    var solr_field_name = "{recurrences_solr_field_name()}";
 
     $(document).ready(function () {ldelim}
         $("#calendar").initSearchView().data('opendataSearchView'){foreach $filters as $filter}{if is_set($filterDefinitions[$filter])}.addFilter({$filterDefinitions[$filter]}){/if}{/foreach}.init().doSearch();

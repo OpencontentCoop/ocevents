@@ -4,6 +4,10 @@
 <context>
     <name>ocevents/attribute</name>
     <message>
+        <source>Recurrent event</source>
+        <translation>Evento ricorrente</translation>
+    </message>
+    <message>
         <source>Start</source>
         <translation>Inizio</translation>
     </message>
@@ -256,6 +260,10 @@
         <translation>Fine ricorrenza</translation>
     </message>
     <message>
+        <source>Select week day</source>
+        <translation>Seleziona il giorno della settimana</translation>
+    </message>
+    <message>
         <source>Never</source>
         <translation>Mai</translation>
     </message>
@@ -476,8 +484,16 @@
         <translation>Mese</translation>
     </message>
     <message>
-    <source>Year</source>
+        <source>Year</source>
         <translation>Anno</translation>
+    </message>
+    <message>
+        <source>Show recurrences calendar</source>
+        <translation>Apri il calendario delle ricorrenze</translation>
+    </message>
+    <message>
+        <source>Recurrences calendar</source>
+        <translation>Calendario ricorrenze</translation>
     </message>
 </context>
 </TS>

@@ -30,7 +30,6 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
   )
   {
     //return parent::filterSearchResult($searchResults, $query, $builder);
-
     $events = [];
     if ($searchResults->totalCount > 0) {
       foreach ($searchResults->searchHits as $content) {
@@ -45,7 +44,7 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
 
     $data = $this->getFirstLocale($content->data);
     $recurrences = array();
-    $recurrences_data = json_decode($data['recurrences']['content'], true);
+    $recurrences_data = $data['recurrences']['content'];
 
     $eventId      = $content->metadata->id;
     $eventTitle   = $this->getFirstLocale($content->metadata->name);
@@ -105,8 +104,8 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
     $parameters = $this->request->get;
     $start = strtotime($parameters['start']);
     $end = strtotime($parameters['end']);
-
     $calendarQuery = 'raw[' . OCRecurrenceHelper::SOLR_FIELD_NAME . '] = "Intersects\(' . OCRecurrenceHelper::MIN_BOUND . ' ' . $start . ' ' . $end . ' ' . OCRecurrenceHelper::MAX_BOUND . '\)"';
+
     $queryObject = $builder->instanceQuery($calendarQuery);
     $calendarQuery = $queryObject->convert();
     $query = new ArrayObject(
