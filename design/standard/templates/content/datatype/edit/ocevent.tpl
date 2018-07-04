@@ -531,6 +531,7 @@
 .fuelux .scheduler .end-datetime .form-group {margin-left: 0;}
 .fuelux .datepicker-calendar-wrapper {width: auto;}
 .fuelux .scheduler .start-datetime .combobox {max-width: none;}
+.fuelux .scheduler .end-options button{white-space: nowrap !important;}
 .modal {margin-top: 200px;}
 {/literal}
 </style>
@@ -567,6 +568,9 @@
                 allowPastDates: true
             },
             endDateOptions: {
+                allowPastDates: true
+            },
+            untilDateOptions: {
                 allowPastDates: true
             }
         });
