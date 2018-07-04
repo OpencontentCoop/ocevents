@@ -529,9 +529,10 @@
 .fuelux .scheduler .end-datetime.form-group {margin-bottom: 0;}
 .fuelux .radio-label {margin-left: 25px;}
 .fuelux .scheduler .end-datetime .form-group {margin-left: 0;}
-.fuelux .datepicker-calendar-wrapper {width: auto;}
+.fuelux .scheduler .repeat-interval .dropdown-menu,
+.fuelux .datepicker-calendar-wrapper {width: auto !important;}
 .fuelux .scheduler .start-datetime .combobox {max-width: none;}
-.fuelux .scheduler .end-options button{white-space: nowrap !important;}
+.fuelux .scheduler .selectlist button{white-space: nowrap !important;width: auto !important;}
 .modal {margin-top: 200px;}
 {/literal}
 </style>
