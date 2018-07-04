@@ -596,7 +596,10 @@
 
                     calendar.fullCalendar('removeEvents');
                     calendar.fullCalendar('addEventSource', data.recurrences);
-
+                    if (data.recurrences.length > 0) {
+                        console.log(data.recurrences[0].start);
+                        calendar.fullCalendar('gotoDate', moment(data.recurrences[0].start));
+                    }
                 }
             });
         });
@@ -604,6 +607,7 @@
         // Calendar
         calendar.fullCalendar({
             locale: 'it',
+            defaultDate: {/literal}{if is_set($content.events[0])}moment('{$content.events[0].start}'){else}moment(){/if}{/literal},
             header: {
                 left: 'title',
                 center: '',
