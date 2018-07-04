@@ -597,7 +597,6 @@
                     calendar.fullCalendar('removeEvents');
                     calendar.fullCalendar('addEventSource', data.recurrences);
                     if (data.recurrences.length > 0) {
-                        console.log(data.recurrences[0].start);
                         calendar.fullCalendar('gotoDate', moment(data.recurrences[0].start));
                     }
                 }
