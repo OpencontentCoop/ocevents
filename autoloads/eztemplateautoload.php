@@ -4,8 +4,8 @@ $eZTemplateOperatorArray[] = array(
     'script' => 'extension/ocevents/autoloads/OcEventsOperators.php',
     'class' => 'OcEventsOperators',
     'operator_names' => array(
-      'get_min_bound',
-      'get_max_bound',
-      'get_solr_field_name'
+      'recurrences_min_bound',
+      'recurrences_max_bound',
+      'recurrences_solr_field_name'
     )
 );

@@ -10,8 +10,9 @@ class OcEventsOperators
     function operatorList()
     {
         return array(
-            'get_min_bound',
-            'get_max_bound'
+          'recurrences_min_bound',
+          'recurrences_max_bound',
+          'recurrences_solr_field_name'
         );
     }
 
@@ -52,15 +53,15 @@ class OcEventsOperators
         $agenda = OpenPAAgenda::instance();
         switch( $operatorName )
         {
-          case 'get_min_bound':
+          case 'recurrences_min_bound':
               return $operatorValue = OCRecurrenceHelper::MIN_BOUND;
               break;
 
-          case 'get_max_bound':
+          case 'recurrences_max_bound':
             return $operatorValue = OCRecurrenceHelper::MAX_BOUND;
             break;
 
-          case 'get_solr_field_name':
+          case 'recurrences_solr_field_name':
             return $operatorValue = OCRecurrenceHelper::SOLR_FIELD_NAME;
             break;
         }
