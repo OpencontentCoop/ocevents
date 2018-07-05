@@ -90,8 +90,6 @@
     $.opendataTools.settings('language', "{$current_language}");
     $.opendataTools.settings('base_query', "{$base_query}");
     $.opendataTools.settings('locale', "{$moment_language}");
-    /*$.opendataTools.settings('min_bound', "{get_min_bound()}");
-    $.opendataTools.settings('max_bound', "{get_max_bound()}");*/
 
     // Fixme
     var min_bound = "{recurrences_min_bound()}";
