@@ -480,8 +480,16 @@
         <translation>Mese</translation>
     </message>
     <message>
-    <source>Year</source>
+        <source>Year</source>
         <translation>Anno</translation>
+    </message>
+    <message>
+        <source>Show recurrences calendar</source>
+        <translation>Apri il calendario delle ricorrenze</translation>
+    </message>
+    <message>
+        <source>Recurrences calendar</source>
+        <translation>Calendario ricorrenze</translation>
     </message>
 </context>
 </TS>

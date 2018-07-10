@@ -12,7 +12,8 @@ class OcEventsOperators
         return array(
           'recurrences_min_bound',
           'recurrences_max_bound',
-          'recurrences_solr_field_name'
+          'recurrences_solr_field_name',
+          'recurrences_strtotime'
         );
     }
 
@@ -33,7 +34,11 @@ class OcEventsOperators
      */
     function namedParameterList()
     {
-        return array();
+        return array(
+          'recurrences_strtotime' => array(
+            'time_string' => array( 'type' => 'string', 'required' => true, 'default' => '' )
+          )
+        );
     }
 
   /**
@@ -63,6 +68,10 @@ class OcEventsOperators
 
           case 'recurrences_solr_field_name':
             return $operatorValue = OCRecurrenceHelper::SOLR_FIELD_NAME;
+            break;
+
+          case 'recurrences_strtotime':
+            return $operatorValue = strtotime($namedParameters['time_string']);
             break;
         }
     }
