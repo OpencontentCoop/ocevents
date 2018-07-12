@@ -24,7 +24,6 @@ class OCEventOpendataConverter extends Base
             'to_time'   => $data['events'][0]['end']
           );
         }
-
         $content ['content'] = $data;
         return $content;
     }
