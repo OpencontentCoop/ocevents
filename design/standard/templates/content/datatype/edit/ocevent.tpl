@@ -20,7 +20,7 @@
         <div class="col-md-6">
           <label for="StartDate">{'Start'|i18n('ocevents/attribute')}</label>
           <div class="input-group">
-            <input type="text" class="form-control ocevents-calendar startDate" id="startDate" name="dtstart">
+            <input type="text" class="form-control ocevent-calendar startDate" id="startDate" name="dtstart">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-calendar"></span>
             </div>
@@ -30,7 +30,7 @@
         <div class="col-md-6">
           <label for="EndDate">{'End'|i18n('ocevents/attribute')}</label>
           <div class="input-group">
-            <input type="text" class="form-control ocevents-calendar endDate" id="EndDate" name="dtEnd">
+            <input type="text" class="form-control ocevent-calendar endDate" id="EndDate" name="dtEnd">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-calendar"></span>
             </div>
@@ -120,7 +120,7 @@
         <div class="col-md-6">
           <label>{'On date'|i18n('ocevents/attribute')}</label>
           <div class="input-group">
-            <input type="text" class="form-control until" name="until">
+            <input type="text" class="form-control until ocevent-calendar" name="until">
             <div class="input-group-addon">
               <span class="glyphicon glyphicon-calendar"></span>
             </div>

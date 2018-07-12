@@ -15,7 +15,7 @@
     maxDate: moment().add(30, 'years'),
     rule: null,
 
-    getFormValues: function () {
+    update: function () {
 
       switch( ocevent.fields.recurrence.val() ) {
         case 'none':
@@ -62,7 +62,20 @@
 
     },
 
-    getWeeklyValues: function() {
+    onChangeRecurrence: function () {
+      this.fields.recurrence.on('change', function () {
+        if ($(this).val() == 'rf') {
+          cl.$root.find('#multiplier_ev_label').text('RF(%)')
+          cl.$root.find('#multiplier_refund-stake-container').removeClass('invisible');
+        } else {
+          cl.$root.find('#multiplier_ev_label').text('Rating(%)')
+          cl.$root.find('#multiplier_refund-stake-container').addClass('invisible')
+        }
+        cl._update();
+      });
+    },
+
+    update: function() {
       var values = this.container.find('input[type=checkbox]:checked').map(function(_, el) {
         return $(el).val();
       }).get();
@@ -71,9 +84,15 @@
     },
 
     triggerChange: function () {
+
+      
       this.container.find("input, select").on('change', function () {
-        ocevent.getFormValues();
+        ocevent.update();
       });
+
+      $('.ocevent-calendar').on('dp.change', function(e){
+        ocevent.update();
+      })
     },
 
     init: function (options) {
@@ -109,10 +128,12 @@
           format: 'L',
           maxDate: ocevent.maxDate
         });
+
+        this.triggerChange();
       }
 
 
-      this.triggerChange();
+
 
 
       /*this.rule = new RRule({
