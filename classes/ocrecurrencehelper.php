@@ -3,7 +3,8 @@
 
 class OCRecurrenceHelper
 {
-    const FORMAT = 'Y-m-d\TH:iP';
+    const FORMAT = 'Y-m-d\TH:i:sP';
+    // DateTime::ISO8601
     const SOLR_FIELD_NAME = 'attr_recurrences_dp';
     const MIN_BOUND = '0';
     const MAX_BOUND = '2524607999';
@@ -29,7 +30,7 @@ class OCRecurrenceHelper
     /**
      * @var string
      */
-    protected $format = 'Y-m-d\TH:iP';
+    protected $format = 'Y-m-d\TH:i:sP';
 
     /**
      * @var DateTime

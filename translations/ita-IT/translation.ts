@@ -260,6 +260,10 @@
         <translation>Fine ricorrenza</translation>
     </message>
     <message>
+        <source>Select week day</source>
+        <translation>Seleziona il giorno della settimana</translation>
+    </message>
+    <message>
         <source>Never</source>
         <translation>Mai</translation>
     </message>
