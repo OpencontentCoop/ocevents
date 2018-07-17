@@ -132,7 +132,10 @@
                         }
                     });
 
-                    console.log(viewCalendar.fullCalendar('clientEvents'));
+                    var events = viewCalendar.fullCalendar('clientEvents');
+                    if (events.length > 0) {
+                      viewCalendar.calendar.fullCalendar('gotoDate', events[0].start);
+                    }
                 }
             };
 
