@@ -190,7 +190,6 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
-  </div>
 </div>
 
 {ezscript_require(array(
@@ -208,7 +207,6 @@
 
 <script>
   {literal}
-
 
     var ocevent = $.ocevent;
     ocevent.init({

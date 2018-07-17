@@ -237,6 +237,8 @@
     init: function (options) {
       console.log(options);
 
+      moment().locale('it');
+
       this.attributeId = options.attributeId;
       this.endpoint    = options.endpoint;
       this.container   = $('#ocevent_attribute_' +  this.attributeId);

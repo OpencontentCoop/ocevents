@@ -91,11 +91,15 @@ class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
             $end   = $this->parseDate($v['end']);
 
             if ( !is_null($start) && !is_null($end) ) {
-                $datePoints []= (string) $start . ' ' . $end;
+              // Fixme: aggiungiamo .01 per evitare l'eccezione da parte ti solr, da capire
+              $datePoints []= (string) $start .'.01' . ' ' . $end.'.01';
+              //$datePoints []= (string) $start . ' ' . $end;
             }
             //break;
 
         }
+
+        //$datePoints= array('1529906400.01 1529928000.01');
 
       /*
       <field name="attr_event____dp">1530226800 1530234000</field>

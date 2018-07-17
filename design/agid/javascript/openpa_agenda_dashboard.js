@@ -71,27 +71,23 @@ $(document).ready(function () {
                 },
                 {
                     "render": function (data, type, row) {
-                        var contentData = row.data;
-                        var recurrences = JSON.parse(contentData[tools.settings('language')].recurrences);
-                        console.log(recurrences);
+                        var recurrences = row.data[tools.settings('language')].recurrences;
                         if (recurrences != null) {
-                          return moment(recurrences.events[0].start).format('DD/MM/YYYY HH:MM');
+                          return moment(recurrences.default_value.from_time).format('DD/MM/YYYY HH:MM');
                         } else {
                           return null;
                         }
-
                     },
                     "targets": [4]
                 },
                 {
                     "render": function (data, type, row) {
-                        var contentData = row.data;
-                        var recurrences = JSON.parse(contentData[tools.settings('language')].recurrences);
-                        if (recurrences != null) {
-                          return moment(recurrences.events[0].end).format('DD/MM/YYYY HH:MM');
-                        } else {
-                          return null;
-                        }
+                      var recurrences = row.data[tools.settings('language')].recurrences;
+                      if (recurrences != null) {
+                        return moment(recurrences.default_value.to_time).format('DD/MM/YYYY HH:MM');
+                      } else {
+                        return null;
+                      }
                     },
                     "targets": [5]
                 },

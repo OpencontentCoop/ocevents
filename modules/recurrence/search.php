@@ -4,6 +4,22 @@ $module = $Params['Module'];
 $tpl    = eZTemplate::factory();
 
 
+
+
+
+$input = '{"startDateTime":"2018-07-17T08:00:00+02:00","endDateTime":"2018-07-17T12:00:00+02:00","freq":"2","interval":"1","until":"2020-07-13T00:00:00+02:00","byweekday":["1","2"],"timeZone":{"name":"W. Europe Standard Time","offset":"+01:00"},"recurrencePattern":"DTSTART=20180717T060000Z;FREQ=WEEKLY;INTERVAL=1;UNTIL=20200712T220000Z;BYDAY=TU,WE"}';
+$helper = new OCRecurrenceHelper( $input );
+$data = array(
+  'recurrences' => $helper->getFullCalendarRecurrences(),
+  'text' => $helper->getText(),
+);
+
+echo '<pre>';
+print_r(json_decode($input, true));
+print_r($data);
+exit;
+
+
 /*
 
 

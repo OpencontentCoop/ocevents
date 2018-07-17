@@ -96,7 +96,7 @@ class OCRecurrenceHelper
             );
         }
 
-        $this->rule = new Recurr\Rule( $this->data['recurrencePattern'], $this->startDate, $this->endDate, $this->timezone->getName() );
+        $this->rule = new Recurr\Rule( $this->data['recurrencePattern'], $this->startDate, $this->endDate );
 
         if ( isset( $this->data['exdate'] ) )
         {
@@ -134,7 +134,10 @@ class OCRecurrenceHelper
     public function getText()
     {
         $text = '';
-        $transformer = new \Recurr\Transformer\TextTransformer();
+        $locale = explode( '-', eZLocale::instance()->localeCode());
+        $translator = new \Recurr\Transformer\Translator(strtolower( $locale[1] ));
+        $transformer = new \Recurr\Transformer\TextTransformer($translator);
+
         $text .= $transformer->transform( $this->rule );
         if ( isset( $this->data['rdate'] ) )
         {
