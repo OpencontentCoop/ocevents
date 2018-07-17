@@ -73,7 +73,7 @@ $(document).ready(function () {
                     "render": function (data, type, row) {
                         var recurrences = row.data[tools.settings('language')].recurrences;
                         if (recurrences != null) {
-                          return moment(recurrences.default_value.from_time).format('DD/MM/YYYY HH:MM');
+                          return moment(recurrences.default_value.from_time).format('DD/MM/YYYY HH:mm');
                         } else {
                           return null;
                         }
@@ -84,7 +84,7 @@ $(document).ready(function () {
                     "render": function (data, type, row) {
                       var recurrences = row.data[tools.settings('language')].recurrences;
                       if (recurrences != null) {
-                        return moment(recurrences.default_value.to_time).format('DD/MM/YYYY HH:MM');
+                        return moment(recurrences.default_value.to_time).format('DD/MM/YYYY HH:mm');
                       } else {
                         return null;
                       }

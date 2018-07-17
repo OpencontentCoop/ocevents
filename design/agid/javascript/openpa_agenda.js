@@ -90,11 +90,6 @@
             var refreshCalendar = function (view, response) {
                 if ($.isFunction($.fn.fullCalendar)) {
                     var defaultDate = moment();
-                    //if (response){
-                    //    if (response.totalCount > 0) {
-                    //        defaultDate = moment(response.searchHits[0].data[tools.settings('language')].from_time, moment.ISO_8601);;
-                    //    }
-                    //}
                     if (viewCalendar.data('fullCalendar')) {
                         viewCalendar.fullCalendar('destroy');
                     }
@@ -114,7 +109,7 @@
                         selectable: false,
                         defaultDate: defaultDate,
                         editable: false,
-                        timeFormat: 'H(:mm)',
+                        timeFormat: 'H:mm',
                         eventClick: function (calEvent, jsEvent, view) {
                             preview.find('.modal-content').html('');
                             var template = $.templates("#tpl-event");

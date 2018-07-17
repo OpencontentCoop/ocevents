@@ -230,7 +230,6 @@
       // Bind the dates to datetimepicker.
       this.modal.find("#starts-at, #ends-at").datetimepicker({
         locale: 'it',
-        format: 'L'
       });
     },
 
