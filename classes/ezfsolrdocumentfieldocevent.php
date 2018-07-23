@@ -86,8 +86,16 @@ class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
     {
         $data = array();
         $contentClassAttribute = $this->ContentObjectAttribute->attribute('contentclass_attribute');
-        $fieldName = self::generateAttributeFieldName($contentClassAttribute, OCRecurrenceHelper::DEFAULT_SUBATTRIBUTE_TYPE);
-        $data[$fieldName] = OCEventType::getDatePoints($this->ContentObjectAttribute);
+        $datePoints = OCEventType::getDatePoints($this->ContentObjectAttribute);
+        
+        $searchFieldName = self::generateAttributeFieldName($contentClassAttribute, OCRecurrenceHelper::DEFAULT_SUBATTRIBUTE_TYPE);
+        $data[$searchFieldName] = $datePoints;
+
+        if (isset($datePoints[0])){
+            $firstStartEnd = explode(' ', $datePoints[0]);
+            $sortFieldName = self::generateAttributeFieldName($contentClassAttribute, 'sint');
+            $data[$sortFieldName] = (int)$firstStartEnd[0];
+        }
 
         return $data;
     }
