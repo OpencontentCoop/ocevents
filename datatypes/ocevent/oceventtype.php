@@ -96,24 +96,43 @@ class OCEventType extends eZDataType
     }
 
     /**
-     * Returns the meta data used for storing search indexes.
+     * Ritorna l'inizio del primo evento e la fine dell'ultimo (per evitare che ocSolrDocumentFieldObjectRelation dia errore)
      *
      * @param eZContentObjectAttribute $contentObjectAttribute
-     * @return array
+     * @return string|null
      */
     function metaData($contentObjectAttribute)
     {
         OCRecurrenceHelper::addSolrFieldTypeMap();
+        $content = json_decode($contentObjectAttribute->attribute('data_text'), true);
+        $events = (array)$content['events'];
+        if (count($events) > 0){
+            $first = $last = array_shift($events);
+            if (count($events) > 0){
+                $last = array_pop($events);
+            }
+            $start = self::parseDate($first['start']);
+            $end = self::parseDate($last['end']);
+
+            return (string)$start . '.01' . ' ' . $end . '.01';
+        }
+
+        return null;
+    }
+
+    public static function getDatePoints($contentObjectAttribute)
+    {        
         $datePoints = array();
         $content = json_decode($contentObjectAttribute->attribute('data_text'), true);
         foreach ((array)$content['events'] as $event) {
             try {
-                $start = $this->parseDate($event['start']);
-                $end = $this->parseDate($event['end']);
+                $start = self::parseDate($event['start']);
+                $end = self::parseDate($event['end']);
 
                 if (!is_null($start) && !is_null($end)) {
                     // @todo @fixme aggiungiamo .01 per evitare l'eccezione da parte di solr, da capire
                     $datePoints[] = (string)$start . '.01' . ' ' . $end . '.01';
+
                 }
             } catch (Exception $e) {
                 eZDebug::writeError($e->getMessage(), __METHOD__);
@@ -131,7 +150,7 @@ class OCEventType extends eZDataType
      *
      * Il formato della data passata è 2017-10-20T10:37:06+02:00
      */
-    private function parseDate($inputDate, $format = DateTime::ISO8601)
+    private static function parseDate($inputDate, $format = DateTime::ISO8601)
     {
         if ($inputDate == null) {
             return null;

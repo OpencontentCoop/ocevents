@@ -1,9 +1,9 @@
 <?php /* #?ini charset="utf-8"?
 
 [EnvironmentSettingsPresets]
-AvailablePresets[]=oceventsfullcalendar
+AvailablePresets[]=fullcalendar
 
-[EnvironmentSettingsPresets_oceventsfullcalendar]
+[EnvironmentSettingsPresets_fullcalendar]
 CheckAccess=false
 Debug=enabled
 PHPClass=OcEventsFullcalendarEnvironmentSettings

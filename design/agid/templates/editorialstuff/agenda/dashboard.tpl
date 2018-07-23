@@ -157,7 +157,7 @@
         'geo': '{'/opendata/api/geo/search/'|ezurl(no,full)}',
         'search': '{'/opendata/api/content/search/'|ezurl(no,full)}',
         'class': '{'/opendata/api/classes/'|ezurl(no,full)}',
-        'fullcalendar': '{'/opendata/api/oceventsfullcalendar/search/'|ezurl(no,full)}',
+        'fullcalendar': '{'/opendata/api/fullcalendar/search/'|ezurl(no,full)}',
     {rdelim});
 
     var Translations = {ldelim}

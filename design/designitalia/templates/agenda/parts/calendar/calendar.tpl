@@ -35,7 +35,7 @@
         'search': '{'/opendata/api/content/search/'|ezurl(no,full)}/',
         'class': '{'/opendata/api/classes/'|ezurl(no,full)}/',
         'tags_tree': '{'/opendata/api/tags_tree/'|ezurl(no,full)}/',
-        'fullcalendar': '{'/opendata/api/oceventsfullcalendar/search/'|ezurl(no,full)}/'
+        'fullcalendar': '{'/opendata/api/fullcalendar/search/'|ezurl(no,full)}/'
     {rdelim});
     {if is_set($calendar_identifier)}
         $.opendataTools.settings('session_key','agenda-{$calendar_identifier}-{$current_language}');
