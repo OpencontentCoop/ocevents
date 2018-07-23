@@ -100,8 +100,8 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
     )
     {
         $parameters = $this->request->get;
-        $start = strtotime($parameters['start']);
-        $end = strtotime($parameters['end']);
+        $start = $parameters['start'];
+        $end = $parameters['end'];
         $calendarQuery = "calendar[] = [$start,$end]";
         $queryObject = $builder->instanceQuery($calendarQuery);
         $calendarQuery = $queryObject->convert();
