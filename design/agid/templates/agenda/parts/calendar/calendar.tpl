@@ -91,11 +91,6 @@
     $.opendataTools.settings('base_query', "{$base_query}");
     $.opendataTools.settings('locale', "{$moment_language}");
 
-    // Fixme
-    var min_bound = "{recurrences_min_bound()}";
-    var max_bound = "{recurrences_max_bound()}";
-    var solr_field_name = "{recurrences_solr_field_name()}";
-
     $(document).ready(function () {ldelim}
         $("#calendar").initSearchView().data('opendataSearchView'){foreach $filters as $filter}{if is_set($filterDefinitions[$filter])}.addFilter({$filterDefinitions[$filter]}){/if}{/foreach}.init().doSearch();
     {rdelim});

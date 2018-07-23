@@ -9,6 +9,9 @@ class OCRecurrenceHelper
     const MIN_BOUND = '0';
     const MAX_BOUND = '2524607999';
 
+    const DEFAULT_SUBATTRIBUTE_TYPE = 'date_point';
+    const FIELD_TYPE_MAP = 'dp';
+
     private $phpHasBug = false;
 
     /**
@@ -188,4 +191,12 @@ class OCRecurrenceHelper
         }
         return $recurrences;
     }
+
+    public static function addSolrFieldTypeMap()
+    {
+        if (!isset(ezfSolrDocumentFieldName::$FieldTypeMap[self::DEFAULT_SUBATTRIBUTE_TYPE])) {
+            ezfSolrDocumentFieldName::$FieldTypeMap[self::DEFAULT_SUBATTRIBUTE_TYPE] = self::FIELD_TYPE_MAP;
+        }
+    }
+
 }

@@ -2,7 +2,6 @@
 
 [SolrFieldMapSettings]
 CustomMap[ocevent]=ezfSolrDocumentFieldOcEvent
-
 DatatypeMap[ocevent]=date_point
 
-*/
+*/ ?>

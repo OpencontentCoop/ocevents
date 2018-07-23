@@ -10,10 +10,7 @@ class OcEventsOperators
     function operatorList()
     {
         return array(
-          'recurrences_min_bound',
-          'recurrences_max_bound',
-          'recurrences_solr_field_name',
-          'recurrences_strtotime'
+            'recurrences_strtotime'
         );
     }
 
@@ -35,44 +32,30 @@ class OcEventsOperators
     function namedParameterList()
     {
         return array(
-          'recurrences_strtotime' => array(
-            'time_string' => array( 'type' => 'string', 'required' => true, 'default' => '' )
-          )
+            'recurrences_strtotime' => array(
+                'time_string' => array('type' => 'string', 'required' => true, 'default' => '')
+            )
         );
     }
 
-  /**
-   * @param $tpl
-   * @param $operatorName
-   * @param $operatorParameters
-   * @param $rootNamespace
-   * @param $currentNamespace
-   * @param $operatorValue
-   * @param $namedParameters
-   * @param $placement
-   * @return mixed
-   */
+    /**
+     * @param $tpl
+     * @param $operatorName
+     * @param $operatorParameters
+     * @param $rootNamespace
+     * @param $currentNamespace
+     * @param $operatorValue
+     * @param $namedParameters
+     * @param $placement
+     */
 
-    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters, $placement )
+    function modify($tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters, $placement)
     {
         $agenda = OpenPAAgenda::instance();
-        switch( $operatorName )
-        {
-          case 'recurrences_min_bound':
-              return $operatorValue = OCRecurrenceHelper::MIN_BOUND;
-              break;
-
-          case 'recurrences_max_bound':
-            return $operatorValue = OCRecurrenceHelper::MAX_BOUND;
-            break;
-
-          case 'recurrences_solr_field_name':
-            return $operatorValue = OCRecurrenceHelper::SOLR_FIELD_NAME;
-            break;
-
-          case 'recurrences_strtotime':
-            return $operatorValue = strtotime($namedParameters['time_string']);
-            break;
+        switch ($operatorName) {
+            case 'recurrences_strtotime':
+                $operatorValue = strtotime($namedParameters['time_string']);
+                break;
         }
     }
 }
