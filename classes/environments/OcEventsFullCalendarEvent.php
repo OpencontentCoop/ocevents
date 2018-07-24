@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class OpenPAAgendaFullCalendarEvent
+ * Class OcEventsFullCalendarEvent
  * @see https://fullcalendar.io/docs/event_data/Event_Object/
  */
 class OcEventsFullCalendarEvent implements JsonSerializable
@@ -47,7 +47,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $content
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setContent($content)
     {
@@ -59,7 +59,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $id
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setId($id)
     {
@@ -71,7 +71,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $title
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setTitle($title)
     {
@@ -83,7 +83,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $allDay
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setAllDay($allDay)
     {
@@ -95,7 +95,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $start
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setStart($start)
     {
@@ -107,7 +107,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $end
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setEnd($end)
     {
@@ -119,7 +119,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $url
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setUrl($url)
     {
@@ -131,7 +131,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $className
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setClassName($className)
     {
@@ -143,7 +143,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $editable
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setEditable($editable)
     {
@@ -155,7 +155,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $startEditable
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setStartEditable($startEditable)
     {
@@ -167,7 +167,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $durationEditable
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setDurationEditable($durationEditable)
     {
@@ -179,7 +179,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $resourceEditable
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setResourceEditable($resourceEditable)
     {
@@ -191,7 +191,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $rendering
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setRendering($rendering)
     {
@@ -203,7 +203,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $overlap
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setOverlap($overlap)
     {
@@ -215,7 +215,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $constraint
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setConstraint($constraint)
     {
@@ -227,7 +227,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $color
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setColor($color)
     {
@@ -239,7 +239,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $backgroundColor
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setBackgroundColor($backgroundColor)
     {
@@ -251,7 +251,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $borderColor
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setBorderColor($borderColor)
     {
@@ -263,7 +263,7 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     /**
      * @param mixed $textColor
      *
-     * @return OpenPAAgendaFullCalendarEvent
+     * @return OcEventsFullCalendarEvent
      */
     public function setTextColor($textColor)
     {
@@ -275,13 +275,17 @@ class OcEventsFullCalendarEvent implements JsonSerializable
     function jsonSerialize()
     {
         $data = array();
-        $reflection = new ReflectionClass($this);
-        foreach($reflection->getProperties() as $property){
-            $name = $property->getName();
-            $value = $this->{$name};
-            if ($value !== null){
-                $data[$name] = $value;
+        try {
+            $reflection = new ReflectionClass($this);
+            foreach ($reflection->getProperties() as $property) {
+                $name = $property->getName();
+                $value = $this->{$name};
+                if ($value !== null) {
+                    $data[$name] = $value;
+                }
             }
+        } catch (Exception $e) {
+
         }
 
         return $data;

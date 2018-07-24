@@ -24,7 +24,7 @@ class OCEventOpendataConverter extends Base
             'to_time'   => $data['events'][0]['end']
           );
         }
-        $content ['content'] = $data;
+        $content['content'] = $data;
         return $content;
     }
 
@@ -33,6 +33,12 @@ class OCEventOpendataConverter extends Base
         return $data;
     }
 
+    /**
+     * @param $identifier
+     * @param $data
+     * @param eZContentClassAttribute $attribute
+     * @throws InvalidInputException
+     */
     public static function validate($identifier, $data, eZContentClassAttribute $attribute)
     {
       if ($data !== null && $data !== false && !is_string($data)) {
@@ -40,7 +46,7 @@ class OCEventOpendataConverter extends Base
       }
     }
 
-    public function type( ZContentClassAttribute $attribute )
+    public function type( eZContentClassAttribute $attribute )
     {
         return array(
             'identifier' => 'ocevent',
