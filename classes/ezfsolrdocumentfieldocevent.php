@@ -48,24 +48,25 @@ class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
      */
     static function getClassAttributeType( eZContentClassAttribute $classAttribute, $subAttribute = null, $context = 'search' )
     {
+        $ezFindINI = eZINI::instance('ezfind.ini');
         OCRecurrenceHelper::addSolrFieldTypeMap();
         $datatypeString = $classAttribute->attribute( 'data_type_string' );
-        $customMapList = ezfSolrDocumentFieldBase::$FindINI->variable( 'SolrFieldMapSettings', 'CustomMap' );
+        $customMapList = $ezFindINI->variable( 'SolrFieldMapSettings', 'CustomMap' );
 
         // Fallback #1: single-fielded datatype behaviour here.
-        $datatypeMapList = ezfSolrDocumentFieldBase::$FindINI->variable( 'SolrFieldMapSettings', eZSolr::$fieldTypeContexts[$context] );
+        $datatypeMapList = $ezFindINI->variable( 'SolrFieldMapSettings', eZSolr::$fieldTypeContexts[$context] );
         if ( !empty( $datatypeMapList[$classAttribute->attribute( 'data_type_string' )] ) )
         {
             return $datatypeMapList[$classAttribute->attribute( 'data_type_string' )];
         }
         // Fallback #2: search field datatypemap (pre ezfind 2.2 behaviour)
-        $datatypeMapList = ezfSolrDocumentFieldBase::$FindINI->variable( 'SolrFieldMapSettings', 'DatatypeMap' );
+        $datatypeMapList = $ezFindINI->variable( 'SolrFieldMapSettings', 'DatatypeMap' );
         if ( !empty( $datatypeMapList[$classAttribute->attribute( 'data_type_string' )] ) )
         {
             return $datatypeMapList[$classAttribute->attribute( 'data_type_string' )];
         }
         // Fallback #3: return default field.
-        return ezfSolrDocumentFieldBase::$FindINI->variable( 'SolrFieldMapSettings', 'Default' );
+        return $ezFindINI->variable( 'SolrFieldMapSettings', 'Default' );
     }
 
     /**
