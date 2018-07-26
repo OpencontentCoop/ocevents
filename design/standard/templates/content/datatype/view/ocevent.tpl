@@ -1,5 +1,5 @@
 {ezcss_require(array('fullcalendar.min.css'))}
-<div id='calendar'></div>
+<div id='calendar-{$attribute.id}'></div>
 {ezscript_require(array(
 'ezjsc::jquery',
 'bootstrap.min.js',
@@ -10,8 +10,7 @@
 <script>
   {literal}
   $(document).ready(function () {
-        // Calendar
-    $('#calendar').fullCalendar({
+    $('#calendar-{/literal}{$attribute.id}{literal}').fullCalendar({
       locale: 'it',
       defaultDate: {/literal}{if is_set($attribute.content.events[0])}moment('{$attribute.content.events[0].start}'){else}moment(){/if}{/literal},
       header: {

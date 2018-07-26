@@ -204,9 +204,9 @@ $(document).ready(function () {
             });
         }
     }).on('xhr.dt', function (e, settings, json, xhr) {
-        if (!calendar.fullCalendar('isFetchNeeded')) {
+        //if (!calendar.fullCalendar('isFetchNeeded')) {
             calendar.fullCalendar('refetchEvents');
-        }
+        //}
     }).data('opendataDataTable')
         .attachFilterInput(stateSelect)
         .loadDataTable();
