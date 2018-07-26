@@ -1,4 +1,4 @@
-{ezcss_require(array('ocevent.css', 'fullcalendar.min.css'))}
+{ezcss_require(array('ocevent.css', 'fullcalendar.min.css', 'bootstrap-datetimepicker.min.css'))}
 
 {if $attribute.has_content}
   {def $content = $attribute.content}
@@ -196,6 +196,7 @@
 'ezjsc::jquery',
 'ezjsc::jqueryUI',
 'bootstrap.min.js',
+'moment.min.js',
 'moment-with-locales.min.js',
 'rrule.js',
 'fullcalendar/fullcalendar.min.js',

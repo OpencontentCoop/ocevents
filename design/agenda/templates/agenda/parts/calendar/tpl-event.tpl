@@ -11,19 +11,19 @@
 
           <div class="media">
 
-              {{if (~formatDate(~i18n(data,'recurrences').default_value.from_time,'yyyy.MM.D') == ~formatDate(~i18n(data,'recurrences').default_value.to_time,'yyyy.MM.D')) && ~i18n(data,'recurrences').default_value.count < 2 }}
+              {{if ~i18n(data,'recurrences').default_value && (~formatDate(~i18n(data,'recurrences').default_value.from_time,'yyyy.MM.D') == ~formatDate(~i18n(data,'recurrences').default_value.to_time,'yyyy.MM.D')) && ~i18n(data,'recurrences').default_value.count < 2 }}
                   <div class="media-left">
                       <div class="calendar-date">
                         <span class="month">{{:~formatDate(~i18n(data,'recurrences').default_value.from_time,'MMM')}}</span>
                         <span class="day">{{:~formatDate(~i18n(data,'recurrences').default_value.from_time,'D')}}</span>
                       </div>
                   </div>
-			        {{/if}}
+              {{/if}}
 
               <div class="media-body">
-                  {{if (~formatDate(~i18n(data,'recurrences').default_value.from_time,'yyyy.MM.D') !== ~formatDate(~i18n(data,'recurrences').default_value.to_time,'yyyy.MM.D'))  && ~i18n(data,'recurrences').default_value.count == 1}}
+                  {{if ~i18n(data,'recurrences').default_value && (~formatDate(~i18n(data,'recurrences').default_value.from_time,'yyyy.MM.D') !== ~formatDate(~i18n(data,'recurrences').default_value.to_time,'yyyy.MM.D'))  && ~i18n(data,'recurrences').default_value.count == 1}}
                     <i class="fa fa-calendar"></i> {{:~formatDate(~i18n(data,'recurrences').default_value.from_time,'D MMMM')}} - {{:~formatDate(~i18n(data,'recurrences').default_value.to_time,'D MMMM')}}
-                  {{else}}
+                  {{else ~i18n(data,'recurrences').default_value && ~i18n(data,'recurrences').default_value.count > 1}}
                     <i class="fa fa-calendar"></i> Dal {{:~formatDate(~i18n(data,'recurrences').default_value.from_time,'D MMMM')}}
                   {{/if}}
                    <h2 class="section_header skincolored">
@@ -56,15 +56,15 @@
           {{/if}}
 
           {{if ~i18n(data,'patrocinio')}}
-			{{for ~i18n(data,'patrocinio')}}
-			  <div class="patronage">
-				 <small><i class="fa fa-flag"></i> <span>{{>~i18n(name)}}</span></small>
-			  </div>
-			{{/for}}
-		  {{/if}}
+      {{for ~i18n(data,'patrocinio')}}
+        <div class="patronage">
+         <small><i class="fa fa-flag"></i> <span>{{>~i18n(name)}}</span></small>
+        </div>
+      {{/for}}
+      {{/if}}
 
-		  {{if ~i18n(data,'tematica_evento')}}
-		    <div class="tipo_evento">
+      {{if ~i18n(data,'tematica_evento')}}
+        <div class="tipo_evento">
               <small>
               {{for ~i18n(data,'tematica_evento')}}
                   <span class="type-{{>id}}" style="white-space:nowrap">
@@ -73,10 +73,10 @@
               {{/for}}
               </small>
           </div>
-		  {{/if}}
+      {{/if}}
 
       {{if ~i18n(data,'tipo_evento')}}
-		    <div class="tipo_evento">
+        <div class="tipo_evento">
               <small>
               {{for ~i18n(data,'tipo_evento')}}
                   <span class="type-{{>id}}" style="white-space:nowrap">
@@ -85,11 +85,11 @@
               {{/for}}
               </small>
           </div>
-		  {{/if}}
+      {{/if}}
 
           {{if ~settings('is_collaboration_enabled')}}
           {{if ~i18n(data,'organizzazione')}}
-		  <div class="organizzazione">
+      <div class="organizzazione">
               <small>
               {{for ~i18n(data,'organizzazione')}}
                   <a class="btn btn-success btn-xs type-{{>id}}" href="{{:~associazioneUrl(id)}}">
@@ -99,7 +99,7 @@
               </small>
           </div>
           {{/if}}
-		  {{/if}}
+      {{/if}}
 
       </div>
     </div>
