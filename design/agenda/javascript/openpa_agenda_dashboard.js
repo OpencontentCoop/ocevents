@@ -235,4 +235,7 @@ $(document).ready(function () {
         }
     });
 
+    $.opendataTools.settings('onError', function(errorCode,errorMessage,jqXHR){
+        console.log(errorMessage + ' (error: '+errorCode+')');
+    });
 });

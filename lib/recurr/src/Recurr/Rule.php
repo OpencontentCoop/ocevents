@@ -761,6 +761,9 @@ class Rule
             $date->setTimezone(new \DateTimeZone($this->getTimezone()));
             $date->setTimestamp($timestamp);
         }
+        if ($date instanceof \DateTime){
+            $date->setTime(23,59);
+        }
 
         return $date;
     }
