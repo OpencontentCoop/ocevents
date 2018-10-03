@@ -2,6 +2,11 @@
 
 class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
 {
+    static $customTypeField = array (
+        'count' => 'sint'
+    );
+
+
     /**
      * @see ezfSolrDocumentFieldBase::getFieldName()
      *
@@ -80,6 +85,15 @@ class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
         return parent::generateAttributeFieldName($classAttribute, $type);
     }
 
+
+    static function getCustomFieldName(eZContentClassAttribute $classAttribute, $subattribute = null)
+    {
+      $type = self::$customTypeField[$subattribute];
+      OCRecurrenceHelper::addSolrFieldTypeMap();
+      return parent::$DocumentFieldName->lookupSchemaName( self::ATTR_FIELD_PREFIX . $classAttribute->attribute( 'identifier' ) . $subattribute, $type );
+    }
+
+
     /**
      * @see ezfSolrDocumentFieldBase::getData()
      */
@@ -88,7 +102,7 @@ class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
         $data = array();
         $contentClassAttribute = $this->ContentObjectAttribute->attribute('contentclass_attribute');
         $datePoints = OCEventType::getDatePoints($this->ContentObjectAttribute);
-        
+
         $searchFieldName = self::generateAttributeFieldName($contentClassAttribute, OCRecurrenceHelper::DEFAULT_SUBATTRIBUTE_TYPE);
         $data[$searchFieldName] = $datePoints;
 
@@ -96,6 +110,11 @@ class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
             $firstStartEnd = explode(' ', $datePoints[0]);
             $sortFieldName = self::generateAttributeFieldName($contentClassAttribute, 'sint');
             $data[$sortFieldName] = (int)$firstStartEnd[0];
+        }
+
+        if (!empty($datePoints)){
+          $countFieldName = self::getCustomFieldName($contentClassAttribute, 'count', 'sint');
+          $data[$countFieldName] = (int)count($datePoints);
         }
 
         return $data;
