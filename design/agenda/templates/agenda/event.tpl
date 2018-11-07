@@ -137,6 +137,14 @@
                         </p>
                     {/if}
 
+                    {if and($node|has_attribute('json_ld'), openpaini('OpenpaAgendaSettings', 'ShowJsonLDLink', 'enabled')|eq('enabled'))}
+                        <p>
+                            <a href="{concat('easyvocs/object/', $node.contentobject_id, '?ContentType=json')|ezurl(no)}" target="_blank">
+                                <img style="border:0px;" width="24" src="https://json-ld.org/images/json-ld-data-24.png" alt="JSON-LD-logo-24"/> <strong>JSON-LD</strong>
+                            </a>
+                        </p>
+                    {/if}
+
                 </div>
             </div>
         </div>
