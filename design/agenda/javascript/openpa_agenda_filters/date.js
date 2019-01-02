@@ -67,7 +67,7 @@ var OpenpaAgendaDateFilter = {
                     return 'calendar[] = [' + start.set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ',' + end.set('hour', 23).set('minute', 59).format('YYYY-MM-DD HH:mm') + '] sort [raw[attr_recurrencescount_si]=>asc,recurrences=>asc]';
                 }
             } else {
-              return 'calendar[] = [*,*] sort [recurrences=>asc]';
+                return 'sort [recurrences=>asc]';
             }
         }
     },

@@ -40,6 +40,10 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
 
     private function convertContentToFullcalendarItem(Content $content)
     {
+        $parameters = $this->request->get;
+        $startRequest = new DateTime($parameters['start'], new \DateTimeZone('UTC'));
+        $endRequest = new DateTime($parameters['end'], new \DateTimeZone('UTC'));
+
         $data = $this->getFirstLocale($content->data);
         $recurrences = array();
         $recurrencesData = $data['recurrences']['content'];
@@ -54,28 +58,33 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
             $to = $v['end'];
             $allDay = false;
 
-            if ($to) {
-                $fromDateTime = DateTime::createFromFormat(DateTime::ISO8601, $from);
-                $toDateTime = DateTime::createFromFormat(DateTime::ISO8601, $to);
+            $fromDateTime = DateTime::createFromFormat(DateTime::ISO8601, $from);
+            $toDateTime = DateTime::createFromFormat(DateTime::ISO8601, $to);
 
-                // Todo: Verificare che la ricoorennza cada nel periodo passato
-                if ($fromDateTime instanceof DateTime && $toDateTime instanceof DateTime) {
+            if ($fromDateTime instanceof DateTime && $toDateTime instanceof DateTime) {
+                
+                if (
+                    ($fromDateTime >= $startRequest && $fromDateTime <= $endRequest)
+                    || ($toDateTime >= $startRequest && $toDateTime <= $endRequest)
+                    || ($fromDateTime <= $endRequest && $toDateTime >= $startRequest)
+                ){
+
                     $diff = $toDateTime->diff($fromDateTime);
                     if ($diff instanceof DateInterval) {
                         $allDay = (bool)$diff->days;
                     }
+
+                    $event = new OcEventsFullCalendarEvent();
+                    $event->setId($eventId)
+                        ->setTitle($eventTitle)
+                        ->setStart($from)
+                        ->setEnd($to)
+                        ->setAllDay($allDay)
+                        ->setContent($eventContent);
+
+                    $recurrences[] = $event;
                 }
             }
-
-            $event = new OcEventsFullCalendarEvent();
-            $event->setId($eventId)
-                ->setTitle($eventTitle)
-                ->setStart($from)
-                ->setEnd($to)
-                ->setAllDay($allDay)
-                ->setContent($eventContent);
-
-            $recurrences [] = $event;
         }
         return $recurrences;
     }
@@ -105,9 +114,7 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
         $calendarQuery = "calendar[] = [$start,$end]";
         $queryObject = $builder->instanceQuery($calendarQuery);
         $calendarQuery = $queryObject->convert();
-        $query = new ArrayObject(
-            array_merge_recursive($query->getArrayCopy(), $calendarQuery->getArrayCopy())
-        );
+        $query['Filter'][] = $calendarQuery->getArrayCopy()['Filter'];
 
         if (isset($query['SearchLimit'])) {
             if ($query['SearchLimit'] > $this->maxSearchLimit) {
@@ -120,6 +127,7 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
         if (!isset($query['SearchOffset'])) {
             $query['SearchOffset'] = 0;
         }
+
         return $query;
     }
 }
