@@ -114,7 +114,12 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
         $calendarQuery = "calendar[] = [$start,$end]";
         $queryObject = $builder->instanceQuery($calendarQuery);
         $calendarQuery = $queryObject->convert();
-        $query['Filter'][] = $calendarQuery->getArrayCopy()['Filter'];
+
+        $currentFilter = $query['Filter'];
+        if (!empty($currentFilter))
+          $query['Filter'] = array($currentFilter, $calendarQuery->getArrayCopy()['Filter']);
+        else
+          $query['Filter'] = $calendarQuery->getArrayCopy()['Filter'];
 
         if (isset($query['SearchLimit'])) {
             if ($query['SearchLimit'] > $this->maxSearchLimit) {
