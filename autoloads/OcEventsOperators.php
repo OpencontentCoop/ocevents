@@ -10,7 +10,8 @@ class OcEventsOperators
     function operatorList()
     {
         return array(
-            'recurrences_strtotime'
+            'recurrences_strtotime',
+            'recurrences_next_events'
         );
     }
 
@@ -34,6 +35,10 @@ class OcEventsOperators
         return array(
             'recurrences_strtotime' => array(
                 'time_string' => array('type' => 'string', 'required' => true, 'default' => '')
+            ),
+            'recurrences_next_events' => array(
+                'events' => array('type' => 'array', 'required' => true, 'default' => array()),
+                'limit' => array('type' => 'string', 'required' => false, 'default' => 5),
             )
         );
     }
@@ -51,10 +56,25 @@ class OcEventsOperators
 
     function modify($tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters, $placement)
     {
-        $agenda = OpenPAAgenda::instance();
         switch ($operatorName) {
             case 'recurrences_strtotime':
                 $operatorValue = strtotime($namedParameters['time_string']);
+                break;
+
+            case 'recurrences_next_events':
+                $operatorValue = array();
+                $events = $namedParameters['events'];
+                $limit = (int)$namedParameters['limit'];
+                $now = time();
+                foreach ($events as $event) {
+                    $start = strtotime($event['start']);
+                    if ($start > $now && $limit) {
+                        $operatorValue[] = $event;
+                        if (count($operatorValue) == $limit){
+                            break;
+                        }
+                    }
+                }
                 break;
         }
     }
