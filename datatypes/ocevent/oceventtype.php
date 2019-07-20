@@ -103,19 +103,11 @@ class OCEventType extends eZDataType
      */
     function metaData($contentObjectAttribute)
     {
-        OCRecurrenceHelper::addSolrFieldTypeMap();
-        $content = json_decode($contentObjectAttribute->attribute('data_text'), true);
-        $events = (array)$content['events'];
-        if (count($events) > 0){
-            $first = $last = array_shift($events);
-            if (count($events) > 0){
-                $last = array_pop($events);
-            }
-            $start = self::parseDate($first['start']);
-            $end = self::parseDate($last['end']);
-
-            return (string)$start . '.01' . ' ' . $end . '.01';
-        }
+        /*
+        Questo metodo viene chiamato da ocSolrDocumentFieldObjectRelation e produce un errore nel caso in cui ocevents sia un sub-attribute
+        L'errore è "Error adding field 'subattr_sub_event_of___time_interval____si'='1562911200.01 1563134400.01' msg=For input string: "1562911200.01 1563134400.01"
+        Il metadato negli altri casi viene comunque gestito da ezfSolrDocumentFieldOcEvent
+        */
 
         return null;
     }
