@@ -149,8 +149,8 @@ class OCRecurrenceHelper
   public function getText()
   {
     $text = '';
-    $locale = explode('-', eZLocale::instance()->localeCode());
-    $translator = new \Recurr\Transformer\Translator(strtolower($locale[1]));
+    $locale = explode('-', eZLocale::instance()->httpLocaleCode());
+    $translator = new \Recurr\Transformer\Translator(strtolower($locale[0]));
     $transformer = new \Recurr\Transformer\TextTransformer($translator);
 
     $text .= $transformer->transform($this->rule);
