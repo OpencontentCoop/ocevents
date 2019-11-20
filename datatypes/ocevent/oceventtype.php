@@ -161,7 +161,15 @@ class OCEventType extends eZDataType
      */
     function hasObjectAttributeContent($contentObjectAttribute)
     {
-        return $contentObjectAttribute->attribute("data_text") != '';
+        $dataText = $contentObjectAttribute->attribute("data_text");
+        if ($dataText != ''){
+            $data = json_decode($dataText, true);
+            if (isset($data['events'])){
+                return count($data['events']) > 0;
+            }
+        }
+
+        return false;
     }
 
     /**

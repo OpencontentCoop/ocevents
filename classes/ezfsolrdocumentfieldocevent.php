@@ -113,7 +113,7 @@ class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
         }
 
         if (!empty($datePoints)){
-          $countFieldName = self::getCustomFieldName($contentClassAttribute, 'count', 'sint');
+          $countFieldName = self::getCustomFieldName($contentClassAttribute, 'count');
           $data[$countFieldName] = (int)count($datePoints);
         }
 
