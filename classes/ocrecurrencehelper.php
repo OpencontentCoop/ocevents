@@ -150,7 +150,13 @@ class OCRecurrenceHelper
   {
     $text = '';
     $locale = explode('-', eZLocale::instance()->httpLocaleCode());
-    $translator = new \Recurr\Transformer\Translator(strtolower($locale[0]));
+    $localeIdForTranslator = substr(strtolower($locale[0]),0,2);
+    try {
+        $translator = new \Recurr\Transformer\Translator($localeIdForTranslator);
+    }catch (InvalidArgumentException $e){
+        eZDebug::writeError($e->getMessage(), __METHOD__);
+        $translator = new \Recurr\Transformer\Translator('en');
+    }
     $transformer = new \Recurr\Transformer\TextTransformer($translator);
 
     $text .= $transformer->transform($this->rule);
