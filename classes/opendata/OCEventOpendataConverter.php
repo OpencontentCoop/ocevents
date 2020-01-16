@@ -9,20 +9,20 @@ class OCEventOpendataConverter extends Base
     public function get(eZContentObjectAttribute $attribute)
     {
         $content = array(
-            'id' => intval( $attribute->attribute( 'id' ) ),
-            'version' => intval( $attribute->attribute( 'version' ) ),
+            'id' => intval($attribute->attribute('id')),
+            'version' => intval($attribute->attribute('version')),
             'identifier' => $this->classIdentifier . '/' . $this->identifier,
-            'datatype' => $attribute->attribute( 'data_type_string' ),
+            'datatype' => $attribute->attribute('data_type_string'),
             'content' => null
         );
 
-        $data = $attribute->hasContent() ? json_decode( $attribute->toString(), true) : null;
-        if ( !is_null($data) ) {
-          $data['default_value']     = array(
-            'count'     => count($data['events']),
-            'from_time' => $data['events'][0]['start'],
-            'to_time'   => $data['events'][0]['end']
-          );
+        $data = $attribute->hasContent() ? json_decode($attribute->attribute('data_text'), true) : null;
+        if (!is_null($data)) {
+            $data['default_value'] = array(
+                'count' => count($data['events']),
+                'from_time' => $data['events'][0]['start'],
+                'to_time' => $data['events'][0]['end']
+            );
         }
         $content['content'] = $data;
         return $content;
@@ -41,12 +41,12 @@ class OCEventOpendataConverter extends Base
      */
     public static function validate($identifier, $data, eZContentClassAttribute $attribute)
     {
-      if ($data !== null && $data !== false && !is_string($data)) {
-        throw new InvalidInputException('Invalid type', $identifier, $data);
-      }
+        if ($data !== null && $data !== false && !is_string($data)) {
+            throw new InvalidInputException('Invalid type', $identifier, $data);
+        }
     }
 
-    public function type( eZContentClassAttribute $attribute )
+    public function type(eZContentClassAttribute $attribute)
     {
         return array(
             'identifier' => 'ocevent',

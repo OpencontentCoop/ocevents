@@ -27,13 +27,18 @@ class OCEventType extends eZDataType
         if ($http->hasPostVariable($base . '_ocevent_data_' . $contentObjectAttribute->attribute('id'))) {
             $data = $http->postVariable($base . '_ocevent_data_' . $contentObjectAttribute->attribute('id'));
 
-            $data_array['input'] = json_decode($data['input'], true);
-            $data_array['text'] = $data['text'];
-            $data_array['recurrences'] = json_decode($data['recurrences'], true);
-            $data_array['events'] = json_decode($data['events'], true);
+            $dataArray['input'] = json_decode($data['input'], true);
+            $dataArray['text'] = $data['text'];
+            $dataArray['recurrences'] = json_decode($data['recurrences'], true);
+            $dataArray['events'] = json_decode($data['events'], true);
 
-            if (count($data_array) > 0) {
-                $jsonString = json_encode($data_array);
+            if (count($dataArray['events']) == 0 && $contentObjectAttribute->validateIsRequired()) {
+                $contentObjectAttribute->setValidationError(ezpI18n::tr('kernel/classes/datatypes', 'Input required.'));
+                return eZInputValidator::STATE_INVALID;
+            }
+
+            if (count($dataArray) > 0) {
+                $jsonString = json_encode($dataArray);
                 $contentObjectAttribute->setAttribute('data_text', $jsonString);
             }
         }
@@ -89,10 +94,35 @@ class OCEventType extends eZDataType
     function objectAttributeContent($contentObjectAttribute)
     {
         $data = json_decode($contentObjectAttribute->attribute('data_text'), true);
+        if (!$data) {
+            $data = array(
+                'input' => array(),
+                'recurrences' => array(),
+                'events' => array(),
+            );
+        }
+        $data['input'] = array_merge($this->getDefaultInputVal(), $data['input']);
         $data['input_json'] = json_encode($data['input']);
         $data['recurrences_json'] = json_encode($data['recurrences']);
         $data['events_json'] = json_encode($data['events']);
+
         return $data;
+    }
+
+    private function getDefaultInputVal()
+    {
+        return array(
+            'startDateTime' => false,
+            'endDateTime' => false,
+            'freq' => 'none',
+            'byweekday' => [],
+            'until' => false,
+            'interval' => false,
+            'recurrencePattern' => '',
+            'timeZone' => array(
+                'offset' => 0
+            )
+        );
     }
 
     /**
@@ -113,7 +143,7 @@ class OCEventType extends eZDataType
     }
 
     public static function getDatePoints($contentObjectAttribute)
-    {        
+    {
         $datePoints = array();
         $content = json_decode($contentObjectAttribute->attribute('data_text'), true);
         foreach ((array)$content['events'] as $event) {
@@ -162,9 +192,9 @@ class OCEventType extends eZDataType
     function hasObjectAttributeContent($contentObjectAttribute)
     {
         $dataText = $contentObjectAttribute->attribute("data_text");
-        if ($dataText != ''){
+        if ($dataText != '') {
             $data = json_decode($dataText, true);
-            if (isset($data['events'])){
+            if (isset($data['events'])) {
                 return count($data['events']) > 0;
             }
         }
@@ -174,13 +204,105 @@ class OCEventType extends eZDataType
 
     /**
      * Return string representation of an contentobjectattribute data for simplified export
+     * recurrence_pattern#start_timestamp-end__timestamp|start_timestamp-end__timestamp|...
+     * example: DTSTART=20200115T090000Z;DTEND=20200115T110000Z;FREQ=DAILY;INTERVAL=1;UNTIL=20200130T230000Z#1579078800-1579086000|1579165200-1579172400|...
      *
      * @param eZContentObjectAttribute $contentObjectAttribute
      * @return string
      */
     function toString($contentObjectAttribute)
     {
-        return $contentObjectAttribute->attribute('data_text');
+        $content = $contentObjectAttribute->content();
+        $string = $content['input']['recurrencePattern'];
+        if ($content['recurrences_json'] != $content['events_json']) {
+            $eventList = array();
+            foreach ($content['events'] as $event) {
+                $eventList[] = strtotime($event['start']) . '-' . strtotime($event['end']);
+            }
+            $string .= '#' . implode('|', $eventList);
+        }
+
+        return $string;
+    }
+
+    /**
+     * recurrence_pattern#start_timestamp-end__timestamp|start_timestamp-end__timestamp|...
+     * example: DTSTART=20200115T090000Z;DTEND=20200115T110000Z;FREQ=DAILY;INTERVAL=1;UNTIL=20200130T230000Z#1579078800-1579086000|1579165200-1579172400|...
+     *
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param $string
+     */
+    function fromString($contentObjectAttribute, $string)
+    {
+        $parts = explode('#', $string);
+        $pattern = $parts[0];
+        $customEvents = isset($parts[1]) ? explode('|', $parts[1]) : array();
+
+        try {
+            $rule = new Recurr\Rule($pattern);
+            $helperData = array(
+                'startDateTime' => $rule->getStartDate() ? $rule->getStartDate()->format('Y-m-d\TH:i:sP') : null,
+                'endDateTime' => $rule->getEndDate() ? $rule->getEndDate()->format('Y-m-d\TH:i:sP') : null,
+                'until' => $rule->getUntil() ? $rule->getUntil()->format('Y-m-d\TH:i:sP') : null,
+                'timeZone' => array(
+                    'offset' => $rule->getStartDate() ? $rule->getStartDate()->format('P') : 0
+                ),
+                'recurrencePattern' => $pattern
+            );
+
+            $helper = new OCRecurrenceHelper($helperData);
+            $events = $recurrences = $helper->getFullCalendarRecurrences();
+            $text = $helper->getText();
+
+            $input = $this->getDefaultInputVal();
+            if ($rule->getStartDate()) {
+                $input['startDateTime'] = $rule->getStartDate()->format('c');
+                $input['timeZone']['offset'] = $rule->getStartDate()->format('P');
+            }
+            if ($rule->getEndDate()) {
+                $input['endDateTime'] = $rule->getEndDate()->format('c');
+            }
+            if ($rule->getUntil()) {
+                $input['until'] = $rule->getUntil()->format('c');
+            }
+            if ($rule->getFreq()) {
+                $input['freq'] = $rule->getFreq();
+            }
+            if ($rule->getInterval()) {
+                $input['interval'] = $rule->getInterval();
+            }
+            if ($rule->getByDay()) {
+                /** @var \Recurr\Weekday[] $weekDays */
+                $weekDays = $rule->getByDayTransformedToWeekdays();
+                foreach ($weekDays as $weekDay) {
+                    $input['byweekday'][] = $weekDay->weekday;
+                }
+            }
+            $input['recurrencePattern'] = $pattern;
+
+            if (count($customEvents) > 0) {
+                $events = array();
+                foreach ($customEvents as $customEvent) {
+                    list($start, $end) = explode('-', $customEvent);
+                    $events[] = array(
+                        'id' => $start . '-' . $end,
+                        'start' => date(DateTime::RFC3339, $start),
+                        'end' => date(DateTime::RFC3339, $end)
+                    );
+                }
+            }
+
+            $dataArray['input'] = $input;
+            $dataArray['text'] = $text;
+            $dataArray['recurrences'] = $recurrences;
+            $dataArray['events'] = $events;
+
+            $jsonString = json_encode($dataArray);
+            $contentObjectAttribute->setAttribute('data_text', $jsonString);
+
+        } catch (Exception $e) {
+            eZDebug::writeError($e->getMessage(), __METHOD__);
+        }
     }
 
     /**
@@ -193,45 +315,6 @@ class OCEventType extends eZDataType
     function initializeObjectAttribute($contentObjectAttribute, $currentVersion, $originalContentObjectAttribute)
     {
         $contentObjectAttribute->setAttribute("data_text", $originalContentObjectAttribute->attribute("data_text"));
-    }
-
-    /**
-     * @param $now
-     * @param $version
-     * @param $checktime1
-     * @param bool $checktime2
-     * @return array
-     */
-    function validateDateTime($now, $version, $checktime1, $checktime2 = false)
-    {
-        if ($checktime1 instanceof DateTime && ($checktime2 === false || ($checktime2 !== false && $checktime2 instanceof DateTime))) {
-            if ($checktime2 !== false) {
-                $maxPeriodForEvent = '+1 year';
-
-
-                if ($checktime2->getTimestamp() < $now && $version !== false && $version->Version == 1) {
-                    return array('error' => ezpI18n::tr('extension/ocevents', 'Select an end date in the future.'));
-                }
-
-                if ($checktime1->getTimestamp() > $checktime2->getTimestamp()) {
-                    return array('error' => ezpI18n::tr('extension/ocevents', 'Select an end date newer then the start date.'));
-                }
-
-                $tmpChecktime1 = clone $checktime1;
-                $tmpChecktime1->modify($maxPeriodForEvent);
-                if ($tmpChecktime1->getTimestamp() < $checktime2->getTimestamp()) {
-                    return array('error' => ezpI18n::tr('extension/ocevents', 'Maximum period of an event is exceeded.'));
-                }
-            }
-        } else {
-            if (!$checktime1 instanceof DateTime) {
-                return array('error' => ezpI18n::tr('extension/ocevents', 'Start date is not instanceof DateTime.'));
-            }
-            if ($checktime2 !== false && !$checktime2 instanceof DateTime) {
-                return array('error' => ezpI18n::tr('extension/ocevents', 'End date is not instanceof DateTime.'));
-            }
-        }
-        return array('state' => true);
     }
 
     /**

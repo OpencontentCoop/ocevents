@@ -658,6 +658,7 @@
   RRule.DEFAULT_OPTIONS = {
     freq: null,
     dtstart: null,
+    dtend: null,
     interval: 1,
     wkst: RRule.MO,
     count: null,
@@ -737,6 +738,7 @@
           value = strValues
           break
         case 'DTSTART':
+        case 'DTEND':
         case 'UNTIL':
           value = dateutil.timeToUntilString(value)
           break
