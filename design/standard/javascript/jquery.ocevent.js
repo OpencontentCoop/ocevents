@@ -26,11 +26,11 @@
       });
     },
 
-    showByRecurenceValue: function (){
+    showByRecurenceValue: function () {
       ocevent.hideAll();
       switch (ocevent.fields.recurrence.val()) {
         case 'none':
-          console.log('none')
+          //console.log('none')
           break;
 
         // Daily
@@ -53,14 +53,15 @@
     },
 
     update: function () {
-      switch( ocevent.fields.recurrence.val() ) {
+      switch (ocevent.fields.recurrence.val()) {
         case 'none':
-          console.log('none')
+          //console.log('none')
           ocevent.hideAll();
 
           //pattern = 'FREQ=DAILY;INTERVAL=1;COUNT=1;'
           ocevent.rule = new RRule({
-            dtstart: moment( ocevent.fields.startDate.val() , 'DD/MM/YYYY HH:mm').toDate(),
+            dtstart: moment(ocevent.fields.startDate.val(), 'DD/MM/YYYY HH:mm').toDate(),
+            dtend: moment(ocevent.fields.endDate.val(), 'DD/MM/YYYY HH:mm').toDate(),
             freq: '3',
             interval: '1',
             count: '1'
@@ -71,10 +72,11 @@
         // Daily
         case '3':
           ocevent.rule = new RRule({
-            dtstart: moment( ocevent.fields.startDate.val() , 'DD/MM/YYYY HH:mm').toDate(),
+            dtstart: moment(ocevent.fields.startDate.val(), 'DD/MM/YYYY HH:mm').toDate(),
+            dtend: moment(ocevent.fields.endDate.val(), 'DD/MM/YYYY HH:mm').toDate(),
             freq: ocevent.fields.recurrence.val(),
             interval: ocevent.fields.interval.val(),
-            until: ocevent.fields.until.val() !== '' ? moment( ocevent.fields.until.val() , 'DD/MM/YYYY').toDate() : ocevent.maxDate.toDate()
+            until: ocevent.fields.until.val() !== '' ? moment(ocevent.fields.until.val(), 'DD/MM/YYYY').toDate() : ocevent.maxDate.toDate()
           });
           this.generateData();
           break;
@@ -82,10 +84,11 @@
         // Weekly
         case '2':
           ocevent.rule = new RRule({
-            dtstart: moment( ocevent.fields.startDate.val() , 'DD/MM/YYYY HH:mm').toDate(),
+            dtstart: moment(ocevent.fields.startDate.val(), 'DD/MM/YYYY HH:mm').toDate(),
+            dtend: moment(ocevent.fields.endDate.val(), 'DD/MM/YYYY HH:mm').toDate(),
             freq: ocevent.fields.recurrence.val(),
             interval: ocevent.fields.interval.val(),
-            until: ocevent.fields.until.val() !== '' ? moment( ocevent.fields.until.val() , 'DD/MM/YYYY').toDate() : ocevent.maxDate.toDate(),
+            until: ocevent.fields.until.val() !== '' ? moment(ocevent.fields.until.val(), 'DD/MM/YYYY').toDate() : ocevent.maxDate.toDate(),
             byweekday: ocevent.getWeeklyValues()
           });
           this.generateData();
@@ -94,10 +97,11 @@
         // Monthly
         case '1':
           ocevent.rule = new RRule({
-            dtstart: moment( ocevent.fields.startDate.val() , 'DD/MM/YYYY HH:mm').toDate(),
+            dtstart: moment(ocevent.fields.startDate.val(), 'DD/MM/YYYY HH:mm').toDate(),
+            dtend: moment(ocevent.fields.endDate.val(), 'DD/MM/YYYY HH:mm').toDate(),
             freq: ocevent.fields.recurrence.val(),
             interval: ocevent.fields.interval.val(),
-            until: ocevent.fields.until.val() !== '' ? moment( ocevent.fields.until.val() , 'DD/MM/YYYY').toDate() : ocevent.maxDate.toDate()
+            until: ocevent.fields.until.val() !== '' ? moment(ocevent.fields.until.val(), 'DD/MM/YYYY').toDate() : ocevent.maxDate.toDate()
           });
           this.generateData();
           break;
@@ -107,47 +111,54 @@
     },
 
     generateData: function () {
-
+      var self = this;
       var input = {
-        startDateTime: moment( ocevent.fields.startDate.val() , 'DD/MM/YYYY HH:mm').format(),
-        endDateTime: moment( ocevent.fields.endDate.val() , 'DD/MM/YYYY HH:mm').format(),
+        startDateTime: moment(ocevent.fields.startDate.val(), 'DD/MM/YYYY HH:mm').format(),
+        endDateTime: moment(ocevent.fields.endDate.val(), 'DD/MM/YYYY HH:mm').format(),
         freq: ocevent.fields.recurrence.val(),
         interval: ocevent.fields.interval.val(),
-        until: moment( ocevent.fields.until.val() , 'DD/MM/YYYY').format(),
+        until: moment(ocevent.fields.until.val(), 'DD/MM/YYYY').format(),
         byweekday: ocevent.getWeeklyValues(),
         timeZone: {
-          name: 'W. Europe Standard Time',
-          //offset: '+02:00'
-          offset: moment( ocevent.fields.startDate.val() , 'DD/MM/YYYY HH:mm').format('Z')
+          offset: moment(ocevent.fields.startDate.val(), 'DD/MM/YYYY HH:mm').format('Z')
         },
         recurrencePattern: this.rule.toString()
       };
-      console.log(input);
+      //console.log(input);
 
-      $('#events_input').val(JSON.stringify(input));
       $.ajax({
         type: "POST",
         url: ocevent.endpoint,
         data: input,
         success: function (data) {
+          $('#events_input').val(JSON.stringify(input));
           $('#events_text').val(data.text);
           $('#events_recurrences').val(JSON.stringify(data.recurrences));
 
+          if (data.recurrences.length > 1) {
+            self.container.find('.calendar').removeClass('hide');
+          } else {
+            self.container.find('.calendar').addClass('hide');
+          }
           ocevent.calendar.fullCalendar('removeEvents');
           ocevent.calendar.fullCalendar('addEventSource', data.recurrences);
           if (data.recurrences.length > 0) {
             ocevent.calendar.fullCalendar('gotoDate', moment(data.recurrences[0].start));
           }
+        },
+        error: function (jqXHR) {
+          console.log(jqXHR.responseJSON.error);
+          if (jqXHR.responseJSON.code === 100) {
+            self.fields.endDate.data("DateTimePicker").date(new Date(moment(input.startDateTime).add('1', 'minutes').format()));
+          }
         }
       });
     },
 
-    getWeeklyValues: function() {
-      var values = this.container.find('input[type=checkbox]:checked').map(function(_, el) {
+    getWeeklyValues: function () {
+      return this.container.find('input[type=checkbox]:checked').map(function (_, el) {
         return $(el).val();
       }).get();
-      console.log(values);
-      return values;
     },
 
     bindChange: function () {
@@ -155,9 +166,9 @@
         ocevent.update();
       });
 
-      $('.ocevent-calendar').on('dp.change', function(e){
+      $('.ocevent-calendar').on('dp.change', function (e) {
         ocevent.update();
-      })
+      });
     },
 
     initCalendar: function () {
@@ -174,8 +185,8 @@
         defaultDate: moment(),
         header: {
           left: 'title',
-            center: '',
-            right: 'prev,next'
+          center: '',
+          right: 'prev,next'
         },
         timeFormat: 'H:mm',
         axisFormat: 'H(:mm)',
@@ -222,6 +233,9 @@
         }
       });
 
+      if (events.length <= 1) {
+        this.container.find('.calendar').addClass('hide');
+      }
     },
 
     initModal: function () {
@@ -234,13 +248,13 @@
     },
 
     init: function (options) {
-      console.log(options);
+      //console.log(options);
 
       moment().locale('it');
 
       this.attributeId = options.attributeId;
-      this.endpoint    = options.endpoint;
-      this.container   = $('#ocevent_attribute_' +  this.attributeId);
+      this.endpoint = options.endpoint;
+      this.container = $('#ocevent_attribute_' + this.attributeId);
 
       if (this.container.length > 0) {
         this.fields.startDate = this.container.find('.startDate');
@@ -252,13 +266,13 @@
         // Bind datepicker to start input
         this.fields.startDate.datetimepicker({
           locale: moment().local('it'),
-          defaultDate: moment()
+          defaultDate: moment().set('hour', 10).set('minute', 0)
         });
 
         // Bind datepicker to end input
         this.fields.endDate.datetimepicker({
           locale: moment().local('it'),
-          defaultDate: moment().add(2, 'hours')
+          defaultDate: moment().set('hour', 12).set('minute', 0)
         });
 
         // Bind datepicker to until input
@@ -266,7 +280,7 @@
           locale: moment().local('it'),
           format: 'L',
           maxDate: ocevent.maxDate,
-          defaultDate: moment().add(2, 'years')
+          defaultDate: moment().add(6, 'months')
         });
 
         // Init calendar
@@ -282,7 +296,7 @@
       }
     }
 
-  }
+  };
 
   $.ocevent = ocevent;
 

@@ -70,7 +70,7 @@ class OcEventsOperators
                     $start = strtotime($event['start']);
                     if ($start > $now && $limit) {
                         $operatorValue[] = $event;
-                        if (count($operatorValue) == $limit){
+                        if (count($operatorValue) == $limit) {
                             break;
                         }
                     }

@@ -3,7 +3,7 @@ require 'autoload.php';
 
 $cli = eZCLI::instance();
 $script = eZScript::instance(array(
-    'description' => ( "Convert object attributes in ocevent attribute\n\n" ),
+    'description' => ("Convert object attributes in ocevent attribute\n\n"),
     'use-session' => false,
     'use-modules' => true,
     'use-extensions' => true
@@ -41,7 +41,7 @@ try {
         throw new Exception("Missing from_time argument");
     }
     $fromAttribute = $class->fetchAttributeByIdentifier($fromAttributeIdentifier);
-    if (!$fromAttribute instanceof eZContentClassAttribute){
+    if (!$fromAttribute instanceof eZContentClassAttribute) {
         throw new Exception("Attribute from_time $fromAttributeIdentifier not found in class $classIdentifier");
     }
 
@@ -51,7 +51,7 @@ try {
         throw new Exception("Missing to_time argument");
     }
     $toAttribute = $class->fetchAttributeByIdentifier($toAttributeIdentifier);
-    if (!$toAttribute instanceof eZContentClassAttribute){
+    if (!$toAttribute instanceof eZContentClassAttribute) {
         throw new Exception("Attribute to_time $toAttributeIdentifier not found in class $classIdentifier");
     }
 
@@ -61,7 +61,7 @@ try {
         throw new Exception("Missing to argument");
     }
     $oceventAttribute = $class->fetchAttributeByIdentifier($oceventAttributeIdentifier);
-    if (!$oceventAttribute instanceof eZContentClassAttribute){
+    if (!$oceventAttribute instanceof eZContentClassAttribute) {
         throw new Exception("Attribute ocevent $oceventAttributeIdentifier not found in class $classIdentifier");
     }
 

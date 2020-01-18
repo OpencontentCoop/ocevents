@@ -62,12 +62,12 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
             $toDateTime = DateTime::createFromFormat(DateTime::ISO8601, $to);
 
             if ($fromDateTime instanceof DateTime && $toDateTime instanceof DateTime) {
-                
+
                 if (
                     ($fromDateTime >= $startRequest && $fromDateTime <= $endRequest)
                     || ($toDateTime >= $startRequest && $toDateTime <= $endRequest)
                     || ($fromDateTime <= $endRequest && $toDateTime >= $startRequest)
-                ){
+                ) {
 
                     $diff = $toDateTime->diff($fromDateTime);
                     if ($diff instanceof DateInterval) {
@@ -117,9 +117,9 @@ class OcEventsFullcalendarEnvironmentSettings extends DefaultEnvironmentSettings
 
         $currentFilter = $query['Filter'];
         if (!empty($currentFilter))
-          $query['Filter'] = array($currentFilter, $calendarQuery->getArrayCopy()['Filter']);
+            $query['Filter'] = array($currentFilter, $calendarQuery->getArrayCopy()['Filter']);
         else
-          $query['Filter'] = $calendarQuery->getArrayCopy()['Filter'];
+            $query['Filter'] = $calendarQuery->getArrayCopy()['Filter'];
 
         if (isset($query['SearchLimit'])) {
             if ($query['SearchLimit'] > $this->maxSearchLimit) {

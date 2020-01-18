@@ -2,7 +2,7 @@
 
 class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
 {
-    static $customTypeField = array (
+    static $customTypeField = array(
         'count' => 'sint'
     );
 
@@ -51,27 +51,25 @@ class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
      *
      * @return string Field type. Null if no field type is defined.
      */
-    static function getClassAttributeType( eZContentClassAttribute $classAttribute, $subAttribute = null, $context = 'search' )
+    static function getClassAttributeType(eZContentClassAttribute $classAttribute, $subAttribute = null, $context = 'search')
     {
         $ezFindINI = eZINI::instance('ezfind.ini');
         OCRecurrenceHelper::addSolrFieldTypeMap();
-        $datatypeString = $classAttribute->attribute( 'data_type_string' );
-        $customMapList = $ezFindINI->variable( 'SolrFieldMapSettings', 'CustomMap' );
+        $datatypeString = $classAttribute->attribute('data_type_string');
+        $customMapList = $ezFindINI->variable('SolrFieldMapSettings', 'CustomMap');
 
         // Fallback #1: single-fielded datatype behaviour here.
-        $datatypeMapList = $ezFindINI->variable( 'SolrFieldMapSettings', eZSolr::$fieldTypeContexts[$context] );
-        if ( !empty( $datatypeMapList[$classAttribute->attribute( 'data_type_string' )] ) )
-        {
-            return $datatypeMapList[$classAttribute->attribute( 'data_type_string' )];
+        $datatypeMapList = $ezFindINI->variable('SolrFieldMapSettings', eZSolr::$fieldTypeContexts[$context]);
+        if (!empty($datatypeMapList[$classAttribute->attribute('data_type_string')])) {
+            return $datatypeMapList[$classAttribute->attribute('data_type_string')];
         }
         // Fallback #2: search field datatypemap (pre ezfind 2.2 behaviour)
-        $datatypeMapList = $ezFindINI->variable( 'SolrFieldMapSettings', 'DatatypeMap' );
-        if ( !empty( $datatypeMapList[$classAttribute->attribute( 'data_type_string' )] ) )
-        {
-            return $datatypeMapList[$classAttribute->attribute( 'data_type_string' )];
+        $datatypeMapList = $ezFindINI->variable('SolrFieldMapSettings', 'DatatypeMap');
+        if (!empty($datatypeMapList[$classAttribute->attribute('data_type_string')])) {
+            return $datatypeMapList[$classAttribute->attribute('data_type_string')];
         }
         // Fallback #3: return default field.
-        return $ezFindINI->variable( 'SolrFieldMapSettings', 'Default' );
+        return $ezFindINI->variable('SolrFieldMapSettings', 'Default');
     }
 
     /**
@@ -88,9 +86,9 @@ class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
 
     static function getCustomFieldName(eZContentClassAttribute $classAttribute, $subattribute = null)
     {
-      $type = self::$customTypeField[$subattribute];
-      OCRecurrenceHelper::addSolrFieldTypeMap();
-      return parent::$DocumentFieldName->lookupSchemaName( self::ATTR_FIELD_PREFIX . $classAttribute->attribute( 'identifier' ) . $subattribute, $type );
+        $type = self::$customTypeField[$subattribute];
+        OCRecurrenceHelper::addSolrFieldTypeMap();
+        return parent::$DocumentFieldName->lookupSchemaName(self::ATTR_FIELD_PREFIX . $classAttribute->attribute('identifier') . $subattribute, $type);
     }
 
 
@@ -106,15 +104,15 @@ class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
         $searchFieldName = self::generateAttributeFieldName($contentClassAttribute, OCRecurrenceHelper::DEFAULT_SUBATTRIBUTE_TYPE);
         $data[$searchFieldName] = $datePoints;
 
-        if (isset($datePoints[0])){
+        if (isset($datePoints[0])) {
             $firstStartEnd = explode(' ', $datePoints[0]);
             $sortFieldName = self::generateAttributeFieldName($contentClassAttribute, 'sint');
             $data[$sortFieldName] = (int)$firstStartEnd[0];
         }
 
-        if (!empty($datePoints)){
-          $countFieldName = self::getCustomFieldName($contentClassAttribute, 'count');
-          $data[$countFieldName] = (int)count($datePoints);
+        if (!empty($datePoints)) {
+            $countFieldName = self::getCustomFieldName($contentClassAttribute, 'count');
+            $data[$countFieldName] = (int)count($datePoints);
         }
 
         return $data;
