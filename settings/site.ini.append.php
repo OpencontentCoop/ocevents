@@ -6,4 +6,7 @@ TranslationExtensions[]=ocevents
 [TemplateSettings]
 ExtensionAutoloadPath[]=ocevents
 
+[RoleSettings]
+PolicyOmitList[]=recurrence/parse
+
 */ ?>
