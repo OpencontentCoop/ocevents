@@ -8,13 +8,7 @@ class OCEventOpendataConverter extends Base
 {
     public function get(eZContentObjectAttribute $attribute)
     {
-        $content = array(
-            'id' => intval($attribute->attribute('id')),
-            'version' => intval($attribute->attribute('version')),
-            'identifier' => $this->classIdentifier . '/' . $this->identifier,
-            'datatype' => $attribute->attribute('data_type_string'),
-            'content' => null
-        );
+        $content = parent::get($attribute);
 
         $data = $attribute->hasContent() ? json_decode($attribute->attribute('data_text'), true) : null;
         if (!is_null($data)) {
