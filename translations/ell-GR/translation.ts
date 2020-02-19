@@ -5,507 +5,507 @@
     <name>ocevents/attribute</name>
     <message>
       <source>Recurrent event</source>
-      <translation>Evento ricorrente</translation>
+      <translation>Επαναλαμβανόμενη εκδήλωση</translation>
     </message>
     <message>
       <source>Start</source>
-      <translation>Inizio</translation>
+      <translation>Αρχή</translation>
     </message>
     <message>
       <source>Start Time</source>
-      <translation>Ora inizio</translation>
+      <translation>Ωρα έναρξης</translation>
     </message>
     <message>
       <source>End</source>
-      <translation>Fine</translation>
+      <translation>Τέλος</translation>
     </message>
     <message>
       <source>End Time</source>
-      <translation>Ora fine</translation>
+      <translation>Τέλος χρόνου</translation>
     </message>
     <message>
       <source>Timezone</source>
-      <translation>Fuso orario</translation>
+      <translation>Ζώνη ώρας</translation>
     </message>
     <message>
       <source>Recurrence</source>
-      <translation>Ricorrenza</translation>
+      <translation>Επανάληψη</translation>
     </message>
     <message>
       <source>None (run once)</source>
-      <translation>Nessuna (evento singolo)</translation>
+      <translation>Κανένας (τρέχει μια φορά)</translation>
     </message>
     <message>
       <source>Daily</source>
-      <translation>Giornaliera</translation>
+      <translation>Καθημερινά</translation>
     </message>
     <message>
       <source>Weekly</source>
-      <translation>Settimanale</translation>
+      <translation>Εβδομαδιαίος</translation>
     </message>
     <message>
       <source>Monthly</source>
-      <translation>Mensile</translation>
+      <translation>Μηνιαίο</translation>
     </message>
     <message>
       <source>every</source>
-      <translation>ogni</translation>
+      <translation>κάθε</translation>
     </message>
     <message>
       <source>Every</source>
-      <translation>Ogni</translation>
+      <translation>Κάθε</translation>
     </message>
     <message>
       <source>Mon</source>
-      <translation>Lun</translation>
+      <translation>Δευ</translation>
     </message>
     <message>
       <source>Tue</source>
-      <translation>Mar</translation>
+      <translation>Τρί</translation>
     </message>
     <message>
       <source>Wed</source>
-      <translation>Mer</translation>
+      <translation>Τετ</translation>
     </message>
     <message>
       <source>Thu</source>
-      <translation>Gio</translation>
+      <translation>Πέμ</translation>
     </message>
     <message>
       <source>Fri</source>
-      <translation>Ven</translation>
+      <translation>Παρ</translation>
     </message>
     <message>
       <source>Sat</source>
-      <translation>Sab</translation>
+      <translation>Σάβ</translation>
     </message>
     <message>
       <source>Sun</source>
-      <translation>Dom</translation>
+      <translation>Κυρ</translation>
     </message>
     <message>
       <source>Mo</source>
-      <translation>Lu</translation>
+      <translation>Δευ</translation>
     </message>
     <message>
       <source>Tu</source>
-      <translation>Ma</translation>
+      <translation>Τρί</translation>
     </message>
     <message>
       <source>We</source>
-      <translation>Me</translation>
+      <translation>Τετ</translation>
     </message>
     <message>
       <source>Th</source>
-      <translation>Gi</translation>
+      <translation>Πέμ</translation>
     </message>
     <message>
       <source>Fr</source>
-      <translation>Ve</translation>
+      <translation>Fr</translation>
     </message>
     <message>
       <source>Sa</source>
-      <translation>Sa</translation>
+      <translation>Σάβ</translation>
     </message>
     <message>
       <source>Su</source>
-      <translation>Do</translation>
+      <translation>Κυρ</translation>
     </message>
     <message>
       <source>on the</source>
-      <translation>il</translation>
+      <translation>στο</translation>
     </message>
     <message>
       <source>Monday</source>
-      <translation>Lunedì</translation>
+      <translation>Δευτέρα</translation>
     </message>
     <message>
       <source>Tuesday</source>
-      <translation>Martedì</translation>
+      <translation>Τρίτη</translation>
     </message>
     <message>
       <source>Wednesday</source>
-      <translation>Mercoledì</translation>
+      <translation>Τετάρτη</translation>
     </message>
     <message>
       <source>Thursday</source>
-      <translation>Giovedì</translation>
+      <translation>Πέμπτη</translation>
     </message>
     <message>
       <source>Saturday</source>
-      <translation>Sabato</translation>
+      <translation>Σάββατο</translation>
     </message>
     <message>
       <source>Sunday</source>
-      <translation>Domenica</translation>
+      <translation>Κυριακή</translation>
     </message>
     <message>
       <source>First</source>
-      <translation>Primo/a</translation>
+      <translation>Πρώτα</translation>
     </message>
     <message>
       <source>Second</source>
-      <translation>Secondo/a</translation>
+      <translation>Δεύτερος</translation>
     </message>
     <message>
       <source>Third</source>
-      <translation>Terzo/a</translation>
+      <translation>Τρίτος</translation>
     </message>
     <message>
       <source>Fourth</source>
-      <translation>Quarto/a</translation>
+      <translation>Τέταρτος</translation>
     </message>
     <message>
       <source>Last</source>
-      <translation>Ultimo/a</translation>
+      <translation>τελευταίος</translation>
     </message>
     <message>
       <source>on</source>
-      <translation>il</translation>
+      <translation>επί</translation>
     </message>
     <message>
       <source>January</source>
-      <translation>Gennaio</translation>
+      <translation>Ιανουάριος</translation>
     </message>
     <message>
       <source>February</source>
-      <translation>Febbraio</translation>
+      <translation>Φεβρουάριος</translation>
     </message>
     <message>
       <source>March</source>
-      <translation>Marzo</translation>
+      <translation>Μάρτιος</translation>
     </message>
     <message>
       <source>April</source>
-      <translation>Aprile</translation>
+      <translation>Απρίλιος</translation>
     </message>
     <message>
       <source>June</source>
-      <translation>Giugno</translation>
+      <translation>Ιούνιος</translation>
     </message>
     <message>
       <source>July</source>
-      <translation>Luglio</translation>
+      <translation>Ιούλιος</translation>
     </message>
     <message>
       <source>August</source>
-      <translation>Agosto</translation>
+      <translation>Αύγουστος</translation>
     </message>
     <message>
       <source>September</source>
-      <translation>Settembre</translation>
+      <translation>Σεπτέμβριος</translation>
     </message>
     <message>
       <source>October</source>
-      <translation>Ottobre</translation>
+      <translation>Οκτώβριος</translation>
     </message>
     <message>
       <source>November</source>
-      <translation>Novembre</translation>
+      <translation>Νοέμβριος</translation>
     </message>
     <message>
       <source>December</source>
-      <translation>Dicembre</translation>
+      <translation>Δεκέμβριος</translation>
     </message>
     <message>
       <source>Jan</source>
-      <translation>Gen</translation>
+      <translation>Ιανο</translation>
     </message>
     <message>
       <source>Feb</source>
-      <translation>Feb</translation>
+      <translation>Φεβρ</translation>
     </message>
     <message>
       <source>Mar</source>
-      <translation>Mar</translation>
+      <translation>Μάρτ</translation>
     </message>
     <message>
       <source>Apr</source>
-      <translation>Apr</translation>
+      <translation>Απρί</translation>
     </message>
     <message>
       <source>May</source>
-      <translation>Mag</translation>
+      <translation>Ενδέ</translation>
     </message>
     <message>
       <source>Jun</source>
-      <translation>Giu</translation>
+      <translation>Ιούν</translation>
     </message>
     <message>
       <source>Jul</source>
-      <translation>Lug</translation>
+      <translation>Ιούλ</translation>
     </message>
     <message>
       <source>Aug</source>
-      <translation>Ago</translation>
+      <translation>Αύγο</translation>
     </message>
     <message>
       <source>Sep</source>
-      <translation>Set</translation>
+      <translation>Σεπτ</translation>
     </message>
     <message>
       <source>Oct</source>
-      <translation>Ott</translation>
+      <translation>Οκτώ</translation>
     </message>
     <message>
       <source>Nov</source>
-      <translation>Nov</translation>
+      <translation>Νοέμ</translation>
     </message>
     <message>
       <source>Dec</source>
-      <translation>Dic</translation>
+      <translation>Δεκέ</translation>
     </message>
     <message>
       <source>End recurrence</source>
-      <translation>Fine ricorrenza</translation>
+      <translation>τέλος επανάληψης</translation>
     </message>
     <message>
       <source>Select week day</source>
-      <translation>Seleziona il giorno della settimana</translation>
+      <translation>Επιλέξτε ημέρα της εβδομάδας</translation>
     </message>
     <message>
       <source>Never</source>
-      <translation>Mai</translation>
+      <translation>Ποτέ</translation>
     </message>
     <message>
       <source>After</source>
-      <translation>Dopo</translation>
+      <translation>Μετά</translation>
     </message>
     <message>
       <source>On date</source>
-      <translation>Il giorno</translation>
+      <translation>Κατά την ημερομηνία</translation>
     </message>
     <message>
       <source>End After</source>
-      <translation>Fine dopo</translation>
+      <translation>τέλος μετά</translation>
     </message>
     <message>
       <source>occurance(s)</source>
-      <translation>ricorrenza/e</translation>
+      <translation>occurance (s)</translation>
     </message>
     <message>
       <source>12:00 AM</source>
-      <translation>00:00</translation>
+      <translation>12:00 πμ</translation>
     </message>
     <message>
       <source>12:30 AM</source>
-      <translation>00:30</translation>
+      <translation>12:30 πμ</translation>
     </message>
     <message>
       <source>1:00 AM</source>
-      <translation>01:00</translation>
+      <translation>1:00 πμ</translation>
     </message>
     <message>
       <source>1:30 AM</source>
-      <translation>01:30</translation>
+      <translation>1:30 πμ</translation>
     </message>
     <message>
       <source>2:00 AM</source>
-      <translation>02:00</translation>
+      <translation>2:00 πμ</translation>
     </message>
     <message>
       <source>2:30 AM</source>
-      <translation>02:30</translation>
+      <translation>2:30 πμ</translation>
     </message>
     <message>
       <source>3:00 AM</source>
-      <translation>03:00</translation>
+      <translation>3:00 πμ</translation>
     </message>
     <message>
       <source>3:30 AM</source>
-      <translation>03:30</translation>
+      <translation>3:30 πμ</translation>
     </message>
     <message>
       <source>4:00 AM</source>
-      <translation>04:00</translation>
+      <translation>4:00 πμ</translation>
     </message>
     <message>
       <source>4:30 AM</source>
-      <translation>04:30</translation>
+      <translation>4:30 πμ</translation>
     </message>
     <message>
       <source>5:00 AM</source>
-      <translation>05:00</translation>
+      <translation>5:00 πμ</translation>
     </message>
     <message>
       <source>5:30 AM</source>
-      <translation>05:30</translation>
+      <translation>5:30 πμ</translation>
     </message>
     <message>
       <source>6:00 AM</source>
-      <translation>06:00</translation>
+      <translation>6:00 πμ</translation>
     </message>
     <message>
       <source>6:30 AM</source>
-      <translation>06:30</translation>
+      <translation>6:30 πμ</translation>
     </message>
     <message>
       <source>7:00 AM</source>
-      <translation>07:00</translation>
+      <translation>7:00 πμ</translation>
     </message>
     <message>
       <source>7:30 AM</source>
-      <translation>07:30</translation>
+      <translation>7:30 πμ</translation>
     </message>
     <message>
       <source>8:00 AM</source>
-      <translation>08:00</translation>
+      <translation>8:00 πμ</translation>
     </message>
     <message>
       <source>8:30 AM</source>
-      <translation>08:30</translation>
+      <translation>8:30 πμ</translation>
     </message>
     <message>
       <source>9:00 AM</source>
-      <translation>09:00</translation>
+      <translation>9:00 πμ</translation>
     </message>
     <message>
       <source>9:30 AM</source>
-      <translation>09:30</translation>
+      <translation>9:30 πμ</translation>
     </message>
     <message>
       <source>10:00 AM</source>
-      <translation>10:00</translation>
+      <translation>10:00 πμ</translation>
     </message>
     <message>
       <source>10:30 AM</source>
-      <translation>10:30</translation>
+      <translation>10:30 πμ</translation>
     </message>
     <message>
       <source>11:00 AM</source>
-      <translation>11:00</translation>
+      <translation>11:00 πμ</translation>
     </message>
     <message>
       <source>11:30 AM</source>
-      <translation>11:30</translation>
+      <translation>11:30 πμ</translation>
     </message>
     <message>
       <source>12:00 PM</source>
-      <translation>12:00</translation>
+      <translation>12:00 Μ.Μ</translation>
     </message>
     <message>
       <source>12:30 PM</source>
-      <translation>12:30</translation>
+      <translation>12:30 Μ.Μ</translation>
     </message>
     <message>
       <source>1:00 PM</source>
-      <translation>13:00</translation>
+      <translation>1:00 Μ.Μ</translation>
     </message>
     <message>
       <source>1:30 PM</source>
-      <translation>13:30</translation>
+      <translation>1:30 Μ.Μ</translation>
     </message>
     <message>
       <source>2:00 PM</source>
-      <translation>14:00</translation>
+      <translation>2:00 Μ.Μ</translation>
     </message>
     <message>
       <source>2:30 PM</source>
-      <translation>14:30</translation>
+      <translation>2:30 Μ.Μ</translation>
     </message>
     <message>
       <source>3:00 PM</source>
-      <translation>15:00</translation>
+      <translation>3:00 Μ.Μ</translation>
     </message>
     <message>
       <source>3:30 PM</source>
-      <translation>15:30</translation>
+      <translation>3:30 Μ.Μ</translation>
     </message>
     <message>
       <source>4:00 PM</source>
-      <translation>16:00</translation>
+      <translation>4:00 Μ.Μ</translation>
     </message>
     <message>
       <source>4:30 PM</source>
-      <translation>16:30</translation>
+      <translation>4:30 Μ.Μ</translation>
     </message>
     <message>
       <source>5:00 PM</source>
-      <translation>17:00</translation>
+      <translation>5:00 Μ.Μ</translation>
     </message>
     <message>
       <source>5:30 PM</source>
-      <translation>17:30</translation>
+      <translation>5:30 Μ.Μ</translation>
     </message>
     <message>
       <source>6:00 PM</source>
-      <translation>18:00</translation>
+      <translation>6:00 Μ.Μ</translation>
     </message>
     <message>
       <source>6:30 PM</source>
-      <translation>18:30</translation>
+      <translation>6:30 Μ.Μ</translation>
     </message>
     <message>
       <source>7:00 PM</source>
-      <translation>19:00</translation>
+      <translation>7:00 Μ.Μ</translation>
     </message>
     <message>
       <source>7:30 PM</source>
-      <translation>19:30</translation>
+      <translation>7:30 Μ.Μ</translation>
     </message>
     <message>
       <source>8:00 PM</source>
-      <translation>20:00</translation>
+      <translation>8:00 Μ.Μ</translation>
     </message>
     <message>
       <source>8:30 PM</source>
-      <translation>20:30</translation>
+      <translation>8:30 Μ.Μ</translation>
     </message>
     <message>
       <source>9:00 PM</source>
-      <translation>21:00</translation>
+      <translation>9:00 Μ.Μ</translation>
     </message>
     <message>
       <source>9:30 PM</source>
-      <translation>21:30</translation>
+      <translation>9:30 Μ.Μ</translation>
     </message>
     <message>
       <source>10:00 PM</source>
-      <translation>22:00</translation>
+      <translation>10:00 Μ.Μ</translation>
     </message>
     <message>
       <source>10:30 PM</source>
-      <translation>22:30</translation>
+      <translation>10:30 Μ.Μ</translation>
     </message>
     <message>
       <source>11:00 PM</source>
-      <translation>23:00</translation>
+      <translation>11:00 Μ.Μ</translation>
     </message>
     <message>
       <source>11:30 PM</source>
-      <translation>23:30</translation>
+      <translation>11:30 Μ.Μ</translation>
     </message>
     <message>
       <source>Month</source>
-      <translation>Mese</translation>
+      <translation>Μήνας</translation>
     </message>
     <message>
       <source>Year</source>
-      <translation>Anno</translation>
+      <translation>Ετος</translation>
     </message>
     <message>
       <source>Show recurrences calendar</source>
-      <translation>Apri il calendario delle ricorrenze</translation>
+      <translation>ημερολόγιο Εμφάνιση υποτροπές</translation>
     </message>
     <message>
       <source>Recurrences calendar</source>
-      <translation>Calendario ricorrenze</translation>
+      <translation>ημερολόγιο υποτροπές</translation>
     </message>
     <message>
       <source>Modify event</source>
-      <translation>Modifica evento</translation>
+      <translation>γεγονός Τροποποίηση</translation>
     </message>
     <message>
       <source>Delete</source>
-      <translation>Elimina</translation>
+      <translation>Διαγράφω</translation>
     </message>
     <message>
       <source>Store</source>
-      <translation>Salva</translation>
+      <translation>Κατάστημα</translation>
     </message>
     <message>
       <source>Recurrence text</source>
-      <translation>Testo delle ricorrenze</translation>
+      <translation>επανεμφάνιση κείμενο</translation>
     </message>
   </context>
 </TS>
