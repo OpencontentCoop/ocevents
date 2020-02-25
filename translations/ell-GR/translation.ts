@@ -33,7 +33,7 @@
     </message>
     <message>
       <source>None (run once)</source>
-      <translation>Κανένας (τρέχει μια φορά)</translation>
+      <translation>Καμία (μη επαναλαμβανόμενη)</translation>
     </message>
     <message>
       <source>Daily</source>
@@ -209,23 +209,23 @@
     </message>
     <message>
       <source>Jan</source>
-      <translation>Ιανο</translation>
+      <translation>Ιαν</translation>
     </message>
     <message>
       <source>Feb</source>
-      <translation>Φεβρ</translation>
+      <translation>Φεβ</translation>
     </message>
     <message>
       <source>Mar</source>
-      <translation>Μάρτ</translation>
+      <translation>Μάρ</translation>
     </message>
     <message>
       <source>Apr</source>
-      <translation>Απρί</translation>
+      <translation>Απρ</translation>
     </message>
     <message>
       <source>May</source>
-      <translation>Ενδέ</translation>
+      <translation>Μάι</translation>
     </message>
     <message>
       <source>Jun</source>
@@ -237,23 +237,23 @@
     </message>
     <message>
       <source>Aug</source>
-      <translation>Αύγο</translation>
+      <translation>Αύγ</translation>
     </message>
     <message>
       <source>Sep</source>
-      <translation>Σεπτ</translation>
+      <translation>Σεπ</translation>
     </message>
     <message>
       <source>Oct</source>
-      <translation>Οκτώ</translation>
+      <translation>Οκτ</translation>
     </message>
     <message>
       <source>Nov</source>
-      <translation>Νοέμ</translation>
+      <translation>Νοέ</translation>
     </message>
     <message>
       <source>Dec</source>
-      <translation>Δεκέ</translation>
+      <translation>Δεκ</translation>
     </message>
     <message>
       <source>End recurrence</source>
@@ -485,27 +485,27 @@
     </message>
     <message>
       <source>Show recurrences calendar</source>
-      <translation>ημερολόγιο Εμφάνιση υποτροπές</translation>
+      <translation>Εμφάνιση επαναεμφανιζόμενου ημερολογίου</translation>
     </message>
     <message>
       <source>Recurrences calendar</source>
-      <translation>ημερολόγιο υποτροπές</translation>
+      <translation>Επαναεμφανιζόμενο ημερολόγιο</translation>
     </message>
     <message>
       <source>Modify event</source>
-      <translation>γεγονός Τροποποίηση</translation>
+      <translation>Τροποποίηση γεγονότος</translation>
     </message>
     <message>
       <source>Delete</source>
-      <translation>Διαγράφω</translation>
+      <translation>Διαγραφή</translation>
     </message>
     <message>
       <source>Store</source>
-      <translation>Κατάστημα</translation>
+      <translation>Αποθήκευση</translation>
     </message>
     <message>
       <source>Recurrence text</source>
-      <translation>επανεμφάνιση κείμενο</translation>
+      <translation>επανεμφάνιση κειμένου</translation>
     </message>
   </context>
 </TS>
