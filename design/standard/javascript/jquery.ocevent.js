@@ -126,8 +126,15 @@
       };
       //console.log(input);
 
+      var csrfToken;
+      var tokenNode = document.getElementById('ezxform_token_js');
+      if ( tokenNode ){
+          csrfToken = tokenNode.getAttribute('title');
+      }
+
       $.ajax({
         type: "POST",
+        headers: {'X-CSRF-TOKEN': csrfToken},
         url: ocevent.endpoint,
         data: input,
         success: function (data) {
