@@ -146,16 +146,16 @@ class OCRecurrenceHelper
      */
     private function phpDateTimeBugWorkAround($dateString)
     {
-        if (!DateTime::createFromFormat($this->format, $this->data['startDateTime'], $this->timezone) instanceof DateTime) {
+//        if (!DateTime::createFromFormat($this->format, $this->data['startDateTime'], $this->timezone) instanceof DateTime){
             $timezoneOffset = $this->data['timeZone']['offset'];
             if ($this->data['timeZone']['offset'] == '+00:00') {
                 $timezoneOffset = 'Z';
             }
             $parts = explode($timezoneOffset, $dateString);
             $dateString = $parts[0];
-            $this->format = 'Y-m-d\TH:i';
-            $this->phpHasBug = true;
-        }
+            $this->format = 'Y-m-d\TH:i:s';
+//            $this->phpHasBug = true;
+//        }
         return $dateString;
     }
 
