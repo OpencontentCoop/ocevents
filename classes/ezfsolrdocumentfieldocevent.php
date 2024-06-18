@@ -3,7 +3,7 @@
 class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
 {
     static $customTypeField = array(
-        'count' => 'sint'
+        'count' => 'sint',
     );
 
 
@@ -113,6 +113,20 @@ class ezfSolrDocumentFieldOcEvent extends ezfSolrDocumentFieldBase
         if (!empty($datePoints)) {
             $countFieldName = self::getCustomFieldName($contentClassAttribute, 'count');
             $data[$countFieldName] = (int)count($datePoints);
+
+            $years = $yearMonths = $yearMonthDays = [];
+            foreach ($datePoints as $datePoint) {
+                [$start, $end] = explode('.01 ', $datePoint, 2);
+                $years[] = date('Y', $start);
+                $yearMonths[] = date('Y-m', $start);
+                $yearMonthDays[] = date('Y-m-d', $start);
+            }
+            $yearsFieldName = self::generateSubattributeFieldName($contentClassAttribute, 'y', 'lckeyword');
+            $data[$yearsFieldName] = array_unique(array_values($years));
+            $yearMonthsFieldName = self::generateSubattributeFieldName($contentClassAttribute, 'ym', 'lckeyword');
+            $data[$yearMonthsFieldName] = array_unique(array_values($yearMonths));
+            $yearMonthDaysFieldName = self::generateSubattributeFieldName($contentClassAttribute, 'ymd', 'lckeyword');
+            $data[$yearMonthDaysFieldName] = array_unique(array_values($yearMonthDays));
         }
 
         return $data;
