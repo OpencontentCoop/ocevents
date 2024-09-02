@@ -107,6 +107,9 @@ class OCRecurrenceHelper
                     $this->data['endDateTime'],
                     $this->timezone
                 );
+                if (!$this->endDate){
+                    $this->endDate = DateTime::createFromFormat('U', strtotime($this->data['endDateTime']));
+                }
 
                 if ($this->endDate <= $this->startDate) {
                     throw new Exception("Invalid end date", 100);
