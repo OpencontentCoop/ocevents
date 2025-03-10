@@ -401,7 +401,7 @@
     </message>
     <message>
       <source>2:30 PM</source>
-      <translation>14:30 </translation>
+      <translation>14:30</translation>
     </message>
     <message>
       <source>3:00 PM</source>
