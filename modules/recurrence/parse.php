@@ -12,11 +12,11 @@ try {
         'input' => $helper->getData(),
     );
 } catch (Exception $e) {
-    header('HTTP/1.1 500 Internal Server Error');
+    header('HTTP/1.1 400 Bad Request');
     $data = array(
         'error' => $e->getMessage(),
         'code' => $e->getCode(),
-        'trace' => $e->getTrace()
+//        'trace' => $e->getTrace()
     );
 }
 
