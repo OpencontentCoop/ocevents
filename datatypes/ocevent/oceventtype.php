@@ -266,7 +266,7 @@ class OCEventType extends eZDataType
                 $input['until'] = $rule->getUntil()->format('c');
             }
             if ($rule->getFreq()) {
-                $input['freq'] = $rule->getFreq();
+                $input['freq'] = $rule->getUntil() ? $rule->getFreq() : "none";
             }
             if ($rule->getInterval()) {
                 $input['interval'] = $rule->getInterval();
