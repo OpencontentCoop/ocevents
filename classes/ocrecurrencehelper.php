@@ -84,9 +84,12 @@ class OCRecurrenceHelper
     protected function init()
     {
         if (!$this->isInit) {
-            $timezoneOffset = $this->data['timeZone']['offset'];
-            $timezone = preg_replace('/[^0-9]/', '', $timezoneOffset) * 36;
-            $this->timezone = new DateTimeZone(timezone_name_from_abbr("", $timezone, 0));
+            // Il valore inviato dal client (offset numerico, es. "+02:00") non identifica un fuso
+            // orario univoco: timezone_name_from_abbr() puo' risolvere a un fuso con le stesse ore
+            // di offset ma regole DST diverse da Europe/Rome (es. Europe/Helsinki), sfasando di 1 ora
+            // gli eventi creati durante l'ora legale. Il kernel eZ imposta gia' il fuso corretto del
+            // sito (TimeZoneSettings.TimeZone) in date_default_timezone_set(), quindi lo riusiamo.
+            $this->timezone = new DateTimeZone(date_default_timezone_get());
 
             $this->data['startDateTime'] = $this->phpDateTimeBugWorkAround($this->data['startDateTime']);
             $this->data['endDateTime'] = $this->phpDateTimeBugWorkAround($this->data['endDateTime']);
