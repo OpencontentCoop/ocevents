@@ -87,9 +87,12 @@ class OCRecurrenceHelper
             // Il valore inviato dal client (offset numerico, es. "+02:00") non identifica un fuso
             // orario univoco: timezone_name_from_abbr() puo' risolvere a un fuso con le stesse ore
             // di offset ma regole DST diverse da Europe/Rome (es. Europe/Helsinki), sfasando di 1 ora
-            // gli eventi creati durante l'ora legale. Il kernel eZ imposta gia' il fuso corretto del
-            // sito (TimeZoneSettings.TimeZone) in date_default_timezone_set(), quindi lo riusiamo.
-            $this->timezone = new DateTimeZone(date_default_timezone_get());
+            // gli eventi creati durante l'ora legale. Recurr\Rule::loadFromArray() interpreta un DTSTART
+            // "floating" con `new DateTime($str)`, senza fuso esplicito: dipende quindi dal timezone
+            // PHP ambiente, non da quello passato al costruttore di Rule. Lo forziamo esplicitamente
+            // al fuso del sito invece di affidarci a chi ha fatto il bootstrap di questa richiesta.
+            date_default_timezone_set(self::getSiteTimezone());
+            $this->timezone = new DateTimeZone(self::getSiteTimezone());
 
             $this->data['startDateTime'] = $this->phpDateTimeBugWorkAround($this->data['startDateTime']);
             $this->data['endDateTime'] = $this->phpDateTimeBugWorkAround($this->data['endDateTime']);
@@ -233,6 +236,18 @@ class OCRecurrenceHelper
         if (!isset(ezfSolrDocumentFieldName::$FieldTypeMap[self::DEFAULT_SUBATTRIBUTE_TYPE])) {
             ezfSolrDocumentFieldName::$FieldTypeMap[self::DEFAULT_SUBATTRIBUTE_TYPE] = self::FIELD_TYPE_MAP;
         }
+    }
+
+    /**
+     * Fuso orario del sito da site.ini, indipendente da date_default_timezone_get()
+     * (che riflette solo se il bootstrap corrente l'ha gia' impostato correttamente).
+     *
+     * @return string
+     */
+    public static function getSiteTimezone()
+    {
+        $timezone = eZINI::instance()->variable('TimeZoneSettings', 'TimeZone');
+        return $timezone ?: 'Europe/Rome';
     }
 
 }

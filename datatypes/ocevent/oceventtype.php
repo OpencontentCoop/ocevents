@@ -239,7 +239,14 @@ class OCEventType extends eZDataType
         $customEvents = isset($parts[1]) ? explode('|', $parts[1]) : array();
 
         try {
-            $rule = new Recurr\Rule($pattern);
+            // Se il pattern ha un DTSTART "floating" (senza Z/offset, come da esempio nello schema
+            // OpenAPI), Recurr\Rule::loadFromArray() lo interpreta con `new DateTime($str)`, senza
+            // fuso esplicito: dipende quindi da date_default_timezone_get(), non dal $timezone passato
+            // al costruttore di Rule. Quel valore riflette solo se il bootstrap corrente (siteaccess
+            // REST, script di import, ecc.) l'ha gia' impostato correttamente: lo forziamo esplicitamente
+            // al fuso del sito invece di affidarci allo stato ambiente del processo.
+            date_default_timezone_set(OCRecurrenceHelper::getSiteTimezone());
+            $rule = new Recurr\Rule($pattern, null, null, OCRecurrenceHelper::getSiteTimezone());
             $helperData = array(
                 'startDateTime' => $rule->getStartDate() ? $rule->getStartDate()->format('Y-m-d\TH:i:sP') : null,
                 'endDateTime' => $rule->getEndDate() ? $rule->getEndDate()->format('Y-m-d\TH:i:sP') : null,
