@@ -102,11 +102,40 @@ class OCEventType extends eZDataType
             );
         }
         $data['input'] = array_merge($this->getDefaultInputVal(), $data['input']);
+        $data['events'] = self::sortEventsByDate(isset($data['events']) ? (array)$data['events'] : array());
         $data['input_json'] = json_encode($data['input']);
         $data['recurrences_json'] = json_encode($data['recurrences']);
         $data['events_json'] = json_encode($data['events']);
 
         return $data;
+    }
+
+    /**
+     * Le occorrenze modificate dall'editor restano nella posizione originale dell'elenco salvato:
+     * le ordiniamo per data di inizio (poi di fine), a parita' manteniamo l'ordine di salvataggio.
+     *
+     * @param array $events
+     * @return array
+     */
+    private static function sortEventsByDate(array $events)
+    {
+        $keyed = array();
+        foreach (array_values($events) as $index => $event) {
+            $start = is_array($event) && isset($event['start']) ? strtotime($event['start']) : false;
+            $end = is_array($event) && isset($event['end']) ? strtotime($event['end']) : false;
+            $keyed[] = array($start === false ? PHP_INT_MAX : $start, $end === false ? PHP_INT_MAX : $end, $index, $event);
+        }
+        usort($keyed, function ($a, $b) {
+            if ($a[0] !== $b[0]) {
+                return $a[0] < $b[0] ? -1 : 1;
+            }
+            if ($a[1] !== $b[1]) {
+                return $a[1] < $b[1] ? -1 : 1;
+            }
+            return $a[2] < $b[2] ? -1 : 1;
+        });
+
+        return array_column($keyed, 3);
     }
 
     private function getDefaultInputVal()
